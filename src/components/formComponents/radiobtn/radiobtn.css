@@ -1,0 +1,7 @@
+.rdbtn-container{
+  display: flex
+}
+.radio-btn-label{
+  margin: 1% 0 0 1%;
+  text-align: start;
+}
