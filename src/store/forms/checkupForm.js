@@ -1,7 +1,5 @@
 import {sociodemographicData,
-  pastHistoryData,
-  complexionData,
-  familyHistoryData,
+  pastHistory, 
  } from './helpers/FirstPage'
 
 
@@ -22,15 +20,16 @@ const initialization = (arr) => {
   });
 }
 
-const fill = (init) => {
-  let values = init.reduce((result, field) => {
-    result = Object.assign({}, result, field);
-    return result;
-  }, {})
-  return values 
+const fill = (init, initialValues = {}) => {
+  init.forEach(field => {
+    initialValues = {
+      ...initialValues,
+      field
+    }
+  })
 }
-const sociodemographicLabel = "Sociodemographic data";
-const sociodemographicFields = [
+const label1 = "Sociodemographic data";
+const fields1 = [
   {
     name: "houseNumber",
     type: "number",
@@ -99,10 +98,10 @@ const sociodemographicFields = [
   },
   {
     name: "educationalLevel",
-    type: "select",
+    type: "checklist",
     req: false,
     placeholder:"Educational Level",
-    component: "selectlist",
+    component: "checklist",
     options: sociodemographicData.educationalLevel,
     key: 9,
   },
@@ -125,7 +124,7 @@ const sociodemographicFields = [
   },
   {
     name: "habitsOfMedicalImportance",
-    type: "select",
+    type: "checklist",
     req: false,
     placeholder:"Habits of medical importance",
     component: "checklist",
@@ -174,22 +173,25 @@ const sociodemographicFields = [
   },
 
 ];
-const init1 = initialization(sociodemographicFields);
-const sociodemographicInitialValues = fill(init1)
+const init1 = initialization(fields1);
+let initialValues1 = {}
+fill(init1, initialValues1);
 
+
+const validate = (values) => {
+  return true;
+}
 const submit = (values, { setSubmitting }) => {
   alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
 }
-
-
 export const sociodemographic = {
-  label: sociodemographicLabel,
-  fields: sociodemographicFields,
-  initialValues: sociodemographicInitialValues,
+  label: label1,
+  fields: fields1,
+  initialValues: initialValues1,
+  validate: validate,
+  submit: submit,
 }
-
-
 const complaintLabel = "Complaint & present illness";
 const complaintFields = [
   {
@@ -210,23 +212,18 @@ const complaintFields = [
   },
 ];
 const complaintInitTemp = initialization(complaintFields)
-const complaintInit = fill(complaintInitTemp)
+let complaintInit = {}
+fill(complaintInitTemp, complaintInit);
 
-export const complaint = {
-  label: complaintLabel,
-  fields: complaintFields,
-  initialValues: complaintInit,
-}
-
-const pastHlabel = "Past history";
+const pastHlabel = "Past history label";
 const pastHFields = [
   {
     name: "medical",
     type: "select",
     req: false,
     placeholder:"Medical",
-    component: "selectlist",
-    options: pastHistoryData.medical,
+    component: "checklist",
+    options: pastHistory.medical,
     key: 1,
   },
   {
@@ -251,7 +248,7 @@ const pastHFields = [
     req: false,
     placeholder:"Surgical",
     component: "radio",
-    options: pastHistoryData.surgical,
+    options: pastHistory.surgical,
     key: 4,
   },
   {
@@ -296,191 +293,5 @@ const pastHFields = [
   },  
 ]
 const pastHInitTemp = initialization(pastHFields)
-const pastHInit = fill(pastHInitTemp)
-
-export const pastHistory = {
-  label: pastHlabel,
-  fields: pastHFields,
-  initialValues: pastHInit,
-}
-
-const familyHistoryFields = [
-  {
-    name: "familyHistory",
-    type: "select",
-    req: false,
-    placeholder:"Family History",
-    component: "radio",
-    options: familyHistoryData.familyHistory,
-    key: 1,
-  },
-]
-const familyHistoryinit = [
-  {
-    "familyHistory": ""
-  }
-]
-export const familyHistory = {
-  label: "Family History",
-  fields: familyHistoryFields,
-  initialValues: familyHistoryinit,
-}
-
-const vitalDataLabel = "Vital Data"
-const vitalDataFields = [
-  {
-    name: "systolicBloodPressure",
-    type: "text",
-    req: false,
-    placeholder:"systolic Blood Pressure (mmHg)",
-    component: "input",
-    key: 1,
-  },
-  {
-    name: "DiastolicBloodPressure",
-    type: "text",
-    req: false,
-    placeholder:"Diastolic Blood Pressure (mmHg)",
-    component: "input",
-    key: 2,
-  },
-  {
-    name: "heartRate",
-    type: "text",
-    req: false,
-    placeholder:"Heart rate (bpm)",
-    component: "input",
-    key: 3,
-  },
-  {
-    name: "Temperature",
-    type: "number",
-    req: false,
-    placeholder:"Temperature",
-    component: "input",
-    key: 4,
-  },
-] 
-const vitalDataTemp = initialization(vitalDataFields)
-const vitalDataInit = fill(vitalDataTemp)
-export const vitalData = {
-  label: vitalDataLabel,
-  fields: vitalDataFields,
-  initialValues: vitalDataInit
-}
-
-const anthropometryLabel = "Anthropometry"
-const anthropometryFields = [
-  {
-    name: "weight",
-    type: "text",
-    req: false,
-    placeholder:"Weight(Kg)",
-    component: "input",
-    key: 1,
-  },
-  {
-    name: "height",
-    type: "text",
-    req: false,
-    placeholder:"Height (cm)",
-    component: "input",
-    key: 2,
-  },
-  {
-    name: "bmi",
-    type: "number",
-    req: false,
-    placeholder:"BMI",
-    component: "input",
-    key: 3,
-  },
-] 
-const anthropometryTemp = initialization(anthropometryFields)
-const anthropometryInit = fill(anthropometryTemp)
-export const anthropometry = {
-  label: anthropometryLabel,
-  fields: anthropometryFields,
-  initialValues: anthropometryInit
-}
-
-
-const complexionLabel = "Complexion"
-const complexionFields = [
-  {
-    name: "complexion",
-    type: "select",
-    req: false,
-    placeholder:"complexion",
-    component: "radio",
-    options: complexionData.complexion,
-    key: 1,
-  },
-  {
-    name: "cyanosis",
-    type: "select",
-    req: false,
-    placeholder:"Cyanosis",
-    component: "radio",
-    options: complexionData.cyanosis,
-    key: 2,
-  },
-  {
-    name: "randomBloodSugar",
-    type: "text",
-    req: false,
-    placeholder:"Random blood sugar",
-    component: "input",
-    key: 3,
-  },
-  {
-    name: "waistCircumference",
-    type: "number",
-    req: false,
-    placeholder:"Waist circumference",
-    component: "input",
-    key: 4,
-  },
-  {
-    name: "hipCircumference",
-    type: "number",
-    req: false,
-    placeholder:"Hip circumference",
-    component: "input",
-    key: 5,
-  },
-  {
-    name: "referralOfConvoyClincs",
-    type: "select",
-    req: false,
-    placeholder:"Referral of convoy clincs",
-    component: "radio",
-    options: complexionData.refferalofconvoyClinics,
-    key: 6,
-  },
-  {
-    name: "random",
-    type: "checkbox",
-    req: false,
-    placeholder:"Random",
-    component: "checkbox",
-    key: 7,
-  },
-  {
-    name: "survays",
-    type: "select",
-    req: false,
-    placeholder:"Referral of convoy clincs",
-    component: "radio",
-    options: complexionData.refferalofconvoyClinics,
-    key: 6,
-  },
-  
-] 
-const complexionTemp = initialization(complexionFields)
-const complexionInit = fill(complexionTemp)
-export const complexion = {
-  label: complexionLabel,
-  fields: complexionFields,
-  initialValues: complexionInit
-}
+let pastHInit = {}
+fill(pastHFields, pastHInit);

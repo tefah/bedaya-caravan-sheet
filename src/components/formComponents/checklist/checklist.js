@@ -44,7 +44,7 @@ class SimpleDialog extends React.Component {
                 Add Option
               </Button>
             </DialogActions>
-            <CheckboxList options={f.options} setValue={this.props.setValue} />
+            <CheckboxList options={f.options} setValue={(value) => this.props.change(value)} />
             
           </List>
         </div>
@@ -78,7 +78,14 @@ class Checklist extends React.Component {
     this.setState({ selectedValue: value, open: false });
   };
 
-  change = value => {
+  change = (value) => {
+    if (value[Object.keys(value)[0]] === 0)
+      delete value[0]
+
+    // console.log("VALUEEEEEEEE: ", value[Object.keys(value)[1]])
+    // console.log("VALUEEEEEEEE: ", this.state.selectedValue)
+    // value = value[Object.keys(value)[0]] !== 0?value:delete value[0]
+    // console.log("VALUEEEEEEEE: ", typeof(value))
     this.setState({ selectedValue: value})
     this.props.setValue(this.props.f.name, value)
   }
@@ -96,7 +103,6 @@ class Checklist extends React.Component {
           onClose={this.handleClose}
           f={this.props.f}
           change={this.change}
-          setValue={this.props.setValue}
         />
       </div>
     );

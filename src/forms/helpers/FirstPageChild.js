@@ -1,48 +1,29 @@
 export const sociodemographicData = {
-    gender: ['Male', 'Female']
+    gender: ['Male', 'Female'],
+    maritalStatus: ['Single', 'Married'],
+    fathereducationalLevel: ['Illiterate', 'Read and write', 'Primary', 'Preparatory', 'Secondary', 'University', 'Postgraduate'],
+    mothereducationalLevel: ['Illiterate', 'Read and write', 'Primary', 'Preparatory', 'Secondary', 'University', 'Postgraduate'],
+    consangunity: ['Yes', 'No'],
+    socioecnomicStatus: ['Low', 'Moderate', 'High'],
+    habitsofmedicalImporatance: ['Smoking', 'Smoking Cessation', 'Other'],
 }
-export const sociodemographicData = {
-    maritalStatus: ['Single', 'Married']
-}
-export const sociodemographicData = {
-    fathereducationalLevel: ['Illiterate', 'Read and write', 'Primary', 'Preparatory', 'Secondary', 'University', 'Postgraduate']
-}
-export const sociodemographicData = {
-   mothereducationalLevel: ['Illiterate', 'Read and write', 'Primary', 'Preparatory', 'Secondary', 'University', 'Postgraduate']
-}
-export const sociodemographicData = {
-    consangunity: ['Yes', 'No']
-}
-export const sociodemographicData = {
-    socioecnomicStatus: ['Low', 'Moderate', 'High']
-}
-export const sociodemographicData = {
-    habitsofmedicalImporatance: ['Smoking', 'Smoking Cessation', 'Other']
-}
+
 export const pastHistory = {
-    medical: ['HTN', 'DM', 'Other']
+    medical: ['HTN', 'DM', 'Other'],
+    drugsforchronicDiseases: ['Yes', 'No'],
+    surgical: ['ICU', 'Operation'],
+    bloodTransfusion: ['Yes', 'No'],
+    allergy: ['Yes', 'No'],
 }
-export const pastHistory = {
-    drugsforchronicDiseases: ['Yes', 'No']
-}
-export const pastHistory = {
-    surgical: ['ICU', 'Operation']
-}
-export const pastHistory = {
-    bloodTransfusion: ['Yes', 'No']
-}
-export const pastHistory = {
-    allergy: ['Yes', 'No']
-}
+
 export const familyHistory = {
     familyHistory: ['Similar Condition', 'Similar Systemic Affection', 'Infant/Child Death', 'Genetic Diseases', 'Congenital Diseases', 'DM', 'HTN', 'Other']
 }
 export const generalExamination = {
-    complexion: ['Pallor', 'Jaundice', 'Cyanosis']
-}
-export const generalExamination = {
+    complexion: ['Pallor', 'Jaundice', 'Cyanosis'],
     cyanosis: ['Central', 'Peripheral']
 }
+
 export const refferalofconvoyClinics = {
     clinics: ['IM', 'Derma', 'Surgery', 'Obs&Gyn', 'Cardio', 'Ortho', 'ENT', 'Ophthalm', 'Dental', 'Neuro&Psychiatry']
 }

@@ -7,7 +7,7 @@ export const sociodemographicData = {
     habitsofmedicalImporatance: ['Smoking', 'Smoking Cessation', 'Other'],
 }
 
-export const pastHistoryData = {
+export const pastHistory = {
     medical: ['HTN', 'DM', 'Other'],
     drugsforchronicDiseases: ['Yes', 'No'],
     surgical: ['ICU', 'Operation'],
@@ -15,15 +15,17 @@ export const pastHistoryData = {
     allergy: ['Yes', 'No'],
 
 }
-export const familyHistoryData = {
+export const familyHistory = {
     familyHistory: ['Similar Condition', 'Similar Systemic Affection', 'Infant/Child Death', 'Genetic Diseases', 'Congenital Diseases', 'DM', 'HTN', 'Other'],
 
 }
-export const complexionData  = {
-    refferalofconvoyClinics: ['IM', 'Derma', 'Surgery', 'Obs&Gyn', 'Cardio', 'Ortho', 'ENT', 'Ophthalm', 'Dental', 'Neuro&Psychiatry'],
-    surveys: ['Kidney Function > 40', 'PSA > 45', 'FOB >50'],
+export const generalExamination = {
     complexion: ['Pallor', 'Jaundice', 'Cyanosis'],
     cyanosis: ['Central', 'Peripheral']
+}
+export const complexion  = {
+    refferalofconvoyClinics: ['IM', 'Derma', 'Surgery', 'Obs&Gyn', 'Cardio', 'Ortho', 'ENT', 'Ophthalm', 'Dental', 'Neuro&Psychiatry'],
+    surveys: ['Kidney Function > 40', 'PSA > 45', 'FOB >50'],
 
 }
 export const random = {

@@ -31,7 +31,7 @@ class Section extends Component {
                     label={field.placeholder}
                     fullWidth
                     autoComplete={field.name}
-                    onChange={(value) => this.props.setValue(field.name, value)}
+                    onChange={(event) => this.props.setValue(field.name, event.target.value)}
                   />
                 </Grid>
               );

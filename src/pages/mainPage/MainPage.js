@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux'
+
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,12 +12,14 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { TextField } from '@material-ui/core';
 
 import Checkup from '../formPages/Checkup';
 import Lab from '../formPages/Lab';
 import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
+import {submitData, setIP} from 'store/main/actions'
 
 const styles = theme => ({
   appBar: {
@@ -128,6 +132,11 @@ class MainPage extends React.Component {
             <Typography variant="h6" color="inherit" noWrap align="center">
               Bedaya Caravan sheet 2019
             </Typography>
+            <TextField
+              label={"Enter IP address"}
+              fullWidth
+              onChange={(event) => setIP(event.target.value)}
+            />
           </Toolbar>
         </AppBar>
         <main className={classes.layout}>
@@ -183,4 +192,17 @@ MainPage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MainPage);
+const mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    submitData: (data, path, onSuccessful, onError) =>
+     dispatch(submitData(data, path, onSuccessful, onError)),
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MainPage));

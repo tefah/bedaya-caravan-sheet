@@ -3,7 +3,25 @@ import ReactDOM from 'react-dom';
 import Index from './pages/index';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+import CheckupReducer from 'store/checkup/reducer';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const store = createStore(combineReducers([CheckupReducer]),
+// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+const store = createStore(combineReducers([CheckupReducer]), composeEnhancers(
+   applyMiddleware(thunk)));
+
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Index />
+  </Provider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

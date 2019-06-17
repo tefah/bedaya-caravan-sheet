@@ -86,7 +86,9 @@ handleClickOpen = () => {
 
 handleClose = value => {
   this.setState({ selectedValue: value, open: false });
+  this.props.setValue(this.props.f.name, value)
 };
+
 
 change = value => {
   this.setState({ selectedValue: value})
