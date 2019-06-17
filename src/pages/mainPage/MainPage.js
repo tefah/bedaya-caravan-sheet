@@ -60,10 +60,12 @@ const styles = theme => ({
 });
 
 const steps = ['Check up', 'Lab', 'Pharmacy', 'Follow Up'];
+const ERROR = 1000;
 
 class MainPage extends React.Component {
   state = {
     activeStep: 0,
+    reservedStep: 0,
     init: true,
   };
 
@@ -79,8 +81,11 @@ class MainPage extends React.Component {
         return <Lab bindSubmission={this.bindSubmission} />;
       case 2:
         return <Pharmacy bindSubmission={this.bindSubmission} />;
-        case 3:
-          return <Followup bindSubmission={this.bindSubmission} />;
+      case 3:
+        return <Followup bindSubmission={this.bindSubmission} />;
+      case ERROR:
+        return (<h3 style={{color: 'red'}}>Error occured while submitting<br/>
+        Check your internet or IP address and press the back button</h3>)
       default:
         throw new Error('Unknown step');
     }
@@ -89,20 +94,36 @@ class MainPage extends React.Component {
   getCheckup = () =>{
     this.setState({init: false})
   }
+  errorWhileSubmitting = () => {
+    this.setState(state => ({
+      reservedStep: state.activeStep,
+      activeStep: ERROR,
+    }))
+  }
   handleNext = () => {
+    if(!this.submitCurrentForm()){
+      this.errorWhileSubmitting()
+      return;
+    }
     if(this.state.init)
       this.getCheckup();
     else{
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    this.submitCurrentForm();
+    
   }
   };
 
   handleBack = () => {
     if (this.state.activeStep === 0)
       this.setState({init: true})
+    else if(this.state.activeStep === ERROR){
+      this.setState(state => ({
+        activeStep: state.reservedStep,
+        reservedStep: 0,
+      }))
+    }
     else {
       this.setState(state => ({
       activeStep: state.activeStep - 1,

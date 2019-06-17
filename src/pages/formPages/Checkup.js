@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 
 import {changeValue} from 'store/checkup/actions'
 import Section from 'components/section/Section';
-import {sociodemographic, pastHistory, complaint} from 'forms/checkupForm'
+import {sociodemographic, pastHistory, complaint,
+vitalData, anthropometry, complexion} from 'forms/checkupForm'
 import {submitData} from 'store/main/actions'
 
 
@@ -21,7 +22,7 @@ class Checkup extends Component {
       ...this.props[0].checkup,
       patientID: "test1"
     }
-    console.log("DATAAAAAAA" , this.props[0].checkup)
+    // console.log("DATAAAAAAA" , this.props[0].checkup)
     console.log("SUBMITTED from checkup");
     this.props.submitData(data, "addCheckup", this.onError, this.onSuccessful);
 
@@ -49,6 +50,21 @@ class Checkup extends Component {
         <Section 
         label={pastHistory.label}
         fields={pastHistory.fields}
+        setValue={this.setFieldValue} />
+
+        <Section 
+        label={vitalData.label}
+        fields={vitalData.fields}
+        setValue={this.setFieldValue} />
+
+        <Section 
+        label={anthropometry.label}
+        fields={anthropometry.fields}
+        setValue={this.setFieldValue} />
+
+        <Section 
+        label={complexion.label}
+        fields={complexion.fields}
         setValue={this.setFieldValue} />
       </div>
     );
