@@ -69,23 +69,51 @@ class MainPage extends React.Component {
     init: true,
   };
 
-  submitCurrentForm = null
-
   getStepContent = (step) => {
     if (this.state.init)
-      return <NewPatientScreen />;
+      return <NewPatientScreen
+      
+      handleBack={this.handleBack}
+      handleNext={this.handleNext}
+      handelCancel={this.handelCancel} />;
     switch (step) {
       case 0:
-        return <Checkup  bindSubmission={this.bindSubmission}/>;
+        return <Checkup
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel}/>;
       case 1:
-        return <Lab bindSubmission={this.bindSubmission} />;
+        return <Lab  
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel}/>;
       case 2:
-        return <Pharmacy bindSubmission={this.bindSubmission} />;
+        return <Pharmacy 
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel} />;
       case 3:
-        return <Followup bindSubmission={this.bindSubmission} />;
+        return <Followup 
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel} />;
       case ERROR:
-        return (<h3 style={{color: 'red'}}>Error occured while submitting<br/>
-        Check your internet or IP address and press the back button</h3>)
+        return (
+        <div>
+          <h3 style={{color: 'red'}}>Error occured while submitting<br/>
+          Check your internet or IP address and press the back button</h3>
+          <Button 
+          variant="contained"
+          color="secondary"
+          onClick={this.handleBack}>
+            Back
+          </Button>
+        </div>
+        )
       default:
         throw new Error('Unknown step');
     }
@@ -101,10 +129,6 @@ class MainPage extends React.Component {
     }))
   }
   handleNext = () => {
-    if(!this.submitCurrentForm()){
-      this.errorWhileSubmitting()
-      return;
-    }
     if(this.state.init)
       this.getCheckup();
     else{
@@ -138,6 +162,7 @@ class MainPage extends React.Component {
   };
 
   bindSubmission = (submition) => {
+    // console.log("SUBMISSION FUN: ", submition)
     this.submitCurrentForm = submition;
   }
 
@@ -177,28 +202,6 @@ class MainPage extends React.Component {
               ) : ( //shows step content 
               <React.Fragment>
                 {this.getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {(!this.state.init) && (
-                  <Button onClick={this.handleBack} className={classes.button}>
-                    Back
-                  </Button>
-                  )}
-                  <Button onClick={this.handleCancel}
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'show Data' : 'Next'}
-                  </Button>
-                </div>
               </React.Fragment>
               )}
             </React.Fragment>

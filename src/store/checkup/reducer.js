@@ -1,8 +1,8 @@
-import {sociodemographic} from 'forms/checkupForm'
+import {checkupData} from 'forms/checkupForm'
 import {CHANGE_VALUE} from './actionTypes'
 
 const initialState = {
-  checkup: {...sociodemographic.initialValues}
+  checkup: {...checkupData.initialValues}
 };
 
 const reduce = (state = initialState, action = {}) => {

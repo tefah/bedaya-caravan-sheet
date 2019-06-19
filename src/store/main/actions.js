@@ -19,8 +19,11 @@ export const submitData = (data, path, onSuccessful, onError) => {
     .then(res => res.json())
     .then(jsonRes => {
       console.log(jsonRes)
-      onSuccessful();
-      // here if you want to get data after finished
+      if(jsonRes.statusCode === 200)
+        onSuccessful();
+      else{
+        throw (jsonRes)
+      }
     })
     .catch(err => {onError(); return console.log("ERROR", err)})
 

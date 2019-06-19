@@ -3,6 +3,7 @@ import {sociodemographicData,
   complexionData,
   familyHistoryData,
  } from './helpers/FirstPage'
+ import { COMPONENTS } from 'forms/helpers/FormUtils';
 
 
 const initialization = (arr) => {
@@ -17,7 +18,7 @@ const initialization = (arr) => {
       case("checkbox"):
       return{[field.name]: false}
         default :
-        return {};
+        return ;
     }
   });
 }
@@ -29,14 +30,15 @@ const fill = (init) => {
   }, {})
   return values 
 }
-const sociodemographicLabel = "Sociodemographic data";
+const sociodemographicLabel = {placeholder: "Sociodemographic data"};
 const sociodemographicFields = [
+  {component: COMPONENTS.label ,placeholder: "Sociodemographic data"},
   {
     name: "houseNumber",
     type: "number",
     req: false,
     placeholder:"House Number",
-    component: "input",
+    component: COMPONENTS.input,
     key: 1,
   },
   {
@@ -44,7 +46,7 @@ const sociodemographicFields = [
     type: "text",
     req: true,
     placeholder:"Patient's Name",
-    component: "input",
+    component: COMPONENTS.input,
     key: 2,
   },
   {
@@ -52,7 +54,7 @@ const sociodemographicFields = [
     type: "select",
     req: true,
     placeholder:"Gender",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: sociodemographicData.gender,
     key: 3,
   },
@@ -61,7 +63,7 @@ const sociodemographicFields = [
     type: "text",
     req: true,
     placeholder:"Patient's Age",
-    component: "input",
+    component: COMPONENTS.input,
     key: 4,
   },
   {
@@ -69,7 +71,7 @@ const sociodemographicFields = [
     type: "text",
     req: false,
     placeholder:"Occupation",
-    component: "input",
+    component: COMPONENTS.input,
     key: 5,
   },
   {
@@ -77,7 +79,7 @@ const sociodemographicFields = [
     type: "select",
     req: true,
     placeholder:"Marital Status",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: sociodemographicData.maritalStatus,
     key: 6,
   },
@@ -86,7 +88,7 @@ const sociodemographicFields = [
     type: "number",
     req: false,
     placeholder:"Children Number",
-    component: "input",
+    component: COMPONENTS.input,
     key: 7,
   },
   {
@@ -94,7 +96,7 @@ const sociodemographicFields = [
     type: "text",
     req: true,
     placeholder:"Age of the youngest child",
-    component: "input",
+    component: COMPONENTS.input,
     key: 8,
   },
   {
@@ -102,7 +104,7 @@ const sociodemographicFields = [
     type: "select",
     req: false,
     placeholder:"Educational Level",
-    component: "selectlist",
+    component: COMPONENTS.selectlist,
     options: sociodemographicData.educationalLevel,
     key: 9,
   },
@@ -111,7 +113,7 @@ const sociodemographicFields = [
     type: "checkbox",
     req: true,
     placeholder:"onsangunity",
-    component: "checkbox",
+    component: COMPONENTS.checkbox,
     key: 10,
   },
   {
@@ -119,7 +121,7 @@ const sociodemographicFields = [
     type: "select",
     req: true,
     placeholder:"Socioeconomic Status",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: sociodemographicData.socioecnomicStatus,
     key: 11,
   },
@@ -137,7 +139,7 @@ const sociodemographicFields = [
     type: "text",
     req: false,
     placeholder:"Rate of smoking per day",
-    component: "input",
+    component: COMPONENTS.input,
     key: 13,
   },
   {
@@ -145,7 +147,7 @@ const sociodemographicFields = [
     type: "text",
     req: false,
     placeholder:"Duration of smoking cessation",
-    component: "input",
+    component: COMPONENTS.input,
     key: 14,
   },
   {
@@ -153,7 +155,7 @@ const sociodemographicFields = [
     type: "number",
     req: false,
     placeholder:"Tel. number",
-    component: "input",
+    component: COMPONENTS.input,
     key: 15,
   },
   {
@@ -161,7 +163,7 @@ const sociodemographicFields = [
     type: "number",
     req: false,
     placeholder:"Mobile number",
-    component: "input",
+    component: COMPONENTS.input,
     key: 16,
   },
   {
@@ -169,7 +171,7 @@ const sociodemographicFields = [
     type: "text",
     req: false,
     placeholder:"Other village name",
-    component: "input",
+    component: COMPONENTS.input,
     key: 17,
   },
 
@@ -182,22 +184,22 @@ const submit = (values, { setSubmitting }) => {
           setSubmitting(false);
 }
 
-
-export const sociodemographic = {
-  label: sociodemographicLabel,
-  fields: sociodemographicFields,
-  initialValues: sociodemographicInitialValues,
-}
+// export const sociodemographic = {
+//   label: sociodemographicLabel,
+//   fields: sociodemographicFields,
+//   initialValues: sociodemographicInitialValues,
+// }
 
 
 const complaintLabel = "Complaint & present illness";
 const complaintFields = [
+  {component: COMPONENTS.label ,placeholder: "Complaint & present illness"},
   {
     name: "complaint",
     type: "text",
     req: false,
     placeholder:"Complaint",
-    component: "input",
+    component: COMPONENTS.input,
     key: 1,
   },
   {
@@ -205,27 +207,28 @@ const complaintFields = [
     type: "text",
     req: false,
     placeholder:"History of present illness",
-    component: "input",
+    component: COMPONENTS.input,
     key: 1,
   },
 ];
 const complaintInitTemp = initialization(complaintFields)
 const complaintInit = fill(complaintInitTemp)
 
-export const complaint = {
-  label: complaintLabel,
-  fields: complaintFields,
-  initialValues: complaintInit,
-}
+// export const complaint = {
+//   label: complaintLabel,
+//   fields: complaintFields,
+//   initialValues: complaintInit,
+// }
 
 const pastHlabel = "Past history";
 const pastHFields = [
+  {component: COMPONENTS.label ,placeholder:"Past history"},
   {
     name: "medical",
     type: "select",
     req: false,
     placeholder:"Medical",
-    component: "selectlist",
+    component: COMPONENTS.selectlist,
     options: pastHistoryData.medical,
     key: 1,
   },
@@ -234,7 +237,7 @@ const pastHFields = [
     type: "text",
     req: false,
     placeholder:"Drugs for chronic diseases",
-    component: "checkbox",
+    component: COMPONENTS.checkbox,
     key: 2,
   },
   {
@@ -242,7 +245,7 @@ const pastHFields = [
     type: "text",
     req: false,
     placeholder:"Other drugs",
-    component: "input",
+    component: COMPONENTS.input,
     key: 3,
   },
   {
@@ -250,7 +253,7 @@ const pastHFields = [
     type: "select",
     req: false,
     placeholder:"Surgical",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: pastHistoryData.surgical,
     key: 4,
   },
@@ -259,7 +262,7 @@ const pastHFields = [
     type: "text",
     req: false,
     placeholder:"Operation",
-    component: "input",
+    component: COMPONENTS.input,
     key: 5,
   },
   {
@@ -267,7 +270,7 @@ const pastHFields = [
     type: "checkbox",
     req: false,
     placeholder:"Blood transfusion",
-    component: "checkbox",
+    component: COMPONENTS.checkbox,
     key: 6,
   },
   {
@@ -275,7 +278,7 @@ const pastHFields = [
     type: "text",
     req: false,
     placeholder:"Duration of blood transfusion",
-    component: "input",
+    component: COMPONENTS.input,
     key: 7,
   },
   {
@@ -283,7 +286,7 @@ const pastHFields = [
     type: "checkbox",
     req: false,
     placeholder:"Allergy",
-    component: "checkbox",
+    component: COMPONENTS.checkbox,
     key: 8,
   },
   {
@@ -291,26 +294,27 @@ const pastHFields = [
     type: "text",
     req: false,
     placeholder:"Define Allergy",
-    component: "input",
+    component: COMPONENTS.input,
     key: 9,
   },  
 ]
 const pastHInitTemp = initialization(pastHFields)
 const pastHInit = fill(pastHInitTemp)
 
-export const pastHistory = {
-  label: pastHlabel,
-  fields: pastHFields,
-  initialValues: pastHInit,
-}
+// export const pastHistory = {
+//   label: pastHlabel,
+//   fields: pastHFields,
+//   initialValues: pastHInit,
+// }
 
 const familyHistoryFields = [
+  {component: COMPONENTS.label ,placeholder:"Family history"},
   {
     name: "familyHistory",
     type: "select",
     req: false,
     placeholder:"Family History",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: familyHistoryData.familyHistory,
     key: 1,
   },
@@ -320,20 +324,21 @@ const familyHistoryinit = [
     "familyHistory": ""
   }
 ]
-export const familyHistory = {
-  label: "Family History",
-  fields: familyHistoryFields,
-  initialValues: familyHistoryinit,
-}
+// export const familyHistory = {
+//   label: "Family History",
+//   fields: familyHistoryFields,
+//   initialValues: familyHistoryinit,
+// }
 
 const vitalDataLabel = "Vital Data"
 const vitalDataFields = [
+  {component: COMPONENTS.label ,placeholder:"Vital data"},
   {
     name: "systolicBloodPressure",
     type: "text",
     req: false,
     placeholder:"systolic Blood Pressure (mmHg)",
-    component: "input",
+    component: COMPONENTS.input,
     key: 1,
   },
   {
@@ -341,7 +346,7 @@ const vitalDataFields = [
     type: "text",
     req: false,
     placeholder:"Diastolic Blood Pressure (mmHg)",
-    component: "input",
+    component: COMPONENTS.input,
     key: 2,
   },
   {
@@ -349,7 +354,7 @@ const vitalDataFields = [
     type: "text",
     req: false,
     placeholder:"Heart rate (bpm)",
-    component: "input",
+    component: COMPONENTS.input,
     key: 3,
   },
   {
@@ -357,26 +362,27 @@ const vitalDataFields = [
     type: "number",
     req: false,
     placeholder:"Temperature",
-    component: "input",
+    component: COMPONENTS.input,
     key: 4,
   },
 ] 
 const vitalDataTemp = initialization(vitalDataFields)
 const vitalDataInit = fill(vitalDataTemp)
-export const vitalData = {
-  label: vitalDataLabel,
-  fields: vitalDataFields,
-  initialValues: vitalDataInit
-}
+// export const vitalData = {
+//   label: vitalDataLabel,
+//   fields: vitalDataFields,
+//   initialValues: vitalDataInit
+// }
 
 const anthropometryLabel = "Anthropometry"
 const anthropometryFields = [
+  {component: COMPONENTS.label ,placeholder:"Anthropometry"},
   {
     name: "weight",
     type: "text",
     req: false,
     placeholder:"Weight(Kg)",
-    component: "input",
+    component: COMPONENTS.input,
     key: 1,
   },
   {
@@ -384,7 +390,7 @@ const anthropometryFields = [
     type: "text",
     req: false,
     placeholder:"Height (cm)",
-    component: "input",
+    component: COMPONENTS.input,
     key: 2,
   },
   {
@@ -392,27 +398,28 @@ const anthropometryFields = [
     type: "number",
     req: false,
     placeholder:"BMI",
-    component: "input",
+    component: COMPONENTS.input,
     key: 3,
   },
 ] 
 const anthropometryTemp = initialization(anthropometryFields)
 const anthropometryInit = fill(anthropometryTemp)
-export const anthropometry = {
-  label: anthropometryLabel,
-  fields: anthropometryFields,
-  initialValues: anthropometryInit
-}
+// export const anthropometry = {
+//   label: anthropometryLabel,
+//   fields: anthropometryFields,
+//   initialValues: anthropometryInit
+// }
 
 
 const complexionLabel = "Complexion"
 const complexionFields = [
+  {component: COMPONENTS.label ,placeholder:"Complexion"},
   {
     name: "complexion",
     type: "select",
     req: false,
     placeholder:"complexion",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: complexionData.complexion,
     key: 1,
   },
@@ -421,7 +428,7 @@ const complexionFields = [
     type: "select",
     req: false,
     placeholder:"Cyanosis",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: complexionData.cyanosis,
     key: 2,
   },
@@ -430,7 +437,7 @@ const complexionFields = [
     type: "text",
     req: false,
     placeholder:"Random blood sugar",
-    component: "input",
+    component: COMPONENTS.input,
     key: 3,
   },
   {
@@ -438,7 +445,7 @@ const complexionFields = [
     type: "number",
     req: false,
     placeholder:"Waist circumference",
-    component: "input",
+    component: COMPONENTS.input,
     key: 4,
   },
   {
@@ -446,7 +453,7 @@ const complexionFields = [
     type: "number",
     req: false,
     placeholder:"Hip circumference",
-    component: "input",
+    component: COMPONENTS.input,
     key: 5,
   },
   {
@@ -454,7 +461,7 @@ const complexionFields = [
     type: "select",
     req: false,
     placeholder:"Referral of convoy clincs",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: complexionData.refferalofconvoyClinics,
     key: 6,
   },
@@ -463,7 +470,7 @@ const complexionFields = [
     type: "checkbox",
     req: false,
     placeholder:"Random",
-    component: "checkbox",
+    component: COMPONENTS.checkbox,
     key: 7,
   },
   {
@@ -471,7 +478,7 @@ const complexionFields = [
     type: "select",
     req: false,
     placeholder:"Referral of convoy clincs",
-    component: "radio",
+    component: COMPONENTS.radio,
     options: complexionData.refferalofconvoyClinics,
     key: 6,
   },
@@ -479,8 +486,25 @@ const complexionFields = [
 ] 
 const complexionTemp = initialization(complexionFields)
 const complexionInit = fill(complexionTemp)
-export const complexion = {
-  label: complexionLabel,
-  fields: complexionFields,
-  initialValues: complexionInit
+// export const complexion = {
+//   label: complexionLabel,
+//   fields: complexionFields,
+//   initialValues: complexionInit
+// }
+
+const checkupFields = [
+  ...sociodemographicFields,
+  ...complaintFields,
+  ...pastHFields,
+  ...familyHistoryFields,
+  ...vitalDataFields,
+  ...anthropometryFields,
+  ...complexionFields,
+]
+console.log("##########", checkupFields)
+const checkupTemp = initialization(checkupFields)
+const checkupInitialValues = fill(checkupTemp)
+export const checkupData = {
+  fields: checkupFields,
+  initialValues: checkupInitialValues,
 }

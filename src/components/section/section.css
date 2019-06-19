@@ -1,0 +1,15 @@
+.reg-form{
+  display: inline-grid;
+}
+.container {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.section-label{
+  text-align: center;
+}
+.field-item{
+  margin: 3%;
+  display: flex
+}

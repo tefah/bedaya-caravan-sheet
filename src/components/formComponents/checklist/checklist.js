@@ -78,16 +78,19 @@ class Checklist extends React.Component {
     this.setState({ selectedValue: value, open: false });
   };
 
+  
   change = (value) => {
+    console.log("VALUEEEEEEEE: ", value)
     if (value[Object.keys(value)[0]] === 0)
-      delete value[0]
+      value.splice(0,1)
+    
 
-    // console.log("VALUEEEEEEEE: ", value[Object.keys(value)[1]])
+    // console.log("VALUEEEEEEEE: ", value)
     // console.log("VALUEEEEEEEE: ", this.state.selectedValue)
     // value = value[Object.keys(value)[0]] !== 0?value:delete value[0]
     // console.log("VALUEEEEEEEE: ", typeof(value))
     this.setState({ selectedValue: value})
-    this.props.setValue(this.props.f.name, value)
+    this.props.setValue(this.props.f.name, value.toString())
   }
   render() {
     return (
