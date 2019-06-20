@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {changeValue} from 'store/checkup/actions'
 import {checkupData} from 'forms/checkupForm'
-import {submitData} from 'store/main/actions'
+import {submitData, getSingleData} from 'store/main/actions'
 import { COMPONENTS } from 'forms/helpers/FormUtils';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -24,44 +24,23 @@ class Checkup extends Component {
     ...(checkupData.initialValues)
   }
 
-  onError = () =>{this.props.handleError()}
+  onError = (err) =>{this.props.handleError(err)}
   onSuccessful = () => {this.props.handleNext()}
 
-  // submit = () => {
-  //   const data = {
-  //     ...this.props[0].checkup,
-  //     patientID: "test1"
-  //   }
-  //   // console.log("DATAAAAAAA" , this.props[0].checkup)
-  //   console.log("SUBMITTED from checkup");
-  //   this.props.submitData(data, "addCheckup", this.onError, this.onSuccessful);
-
-  // }
-  // setFieldValue = (fieldName, value) => {
-  //   console.log("SETTING FIELD ", fieldName)
-  //   console.log("WITH VALUE ", value)
-  //   this.props.changeValue({name: fieldName, value})
-  //   console.log("SHOULD BE SETTTT",this.props)
-  // }
   render() {
     // this.props.bindSubmission(this.submit);
     return (
       <div className="container">
-        {/* <Typography className="section-label" variant="h6" gutterBottom>
-          {this.props.label}
-        </Typography> */}
         <Grid container spacing={24}>
           <Formik 
             initialValues={checkupData.initialValues}
             validate={values => {return true;}}
             onSubmit={(values, { setSubmitting }) => {
-              // alert(`SUBMIT FROM CHECKUP: ${values}`)
-              // console.log("SUBMITTED FROM CHECKUP: ", values)
               const data = {
                 ...values,
-                patientID: "test1"
+                patientID: this.props[0].checkup.patientID,
+                agePhase: this.props[0].checkup.agePhase
               }
-              // console.log("DATAAAAAAA" , data)
               console.log("SUBMITTED from checkup");
               this.props.submitData(data, "addCheckup",  this.onSuccessful,this.onError);
               setSubmitting(false)
@@ -69,6 +48,14 @@ class Checkup extends Component {
             }}
           >
             {({isSubmitting, handleSubmit, setFieldValue, submitForm}) => {
+              const handlSetFieldValue = (name, value) => {
+                setFieldValue(name, value)
+                this.setState(state => {
+                  return {
+                    ...state,
+                    name: value
+                  }
+                })              }
               //bind submission remotly here
               return (
                 <Form  >
@@ -77,13 +64,24 @@ class Checkup extends Component {
                       case(COMPONENTS.input):
                         return ( 
                           <Grid className="field-item" item xs={12} >
-                            <Field
+                            <TextField
                               required={field.req}
                               id={field.name}
                               name={field.name}
                               label={field.placeholder}
                               fullWidth
                               autoComplete={field.name}
+                              value={this.state[field.name]}
+                              onChange={event => {
+                                const data = event.target.value
+                                setFieldValue(field.name, event.target.value)
+                                this.setState(state => {
+                                  return {
+                                    ...state,
+                                    [field.name]: data
+                                  }
+                                })
+                              }}
                             />
                             <ErrorMessage name={field.name} component="div" />
                           </Grid>  
@@ -91,26 +89,26 @@ class Checkup extends Component {
                       case(COMPONENTS.radio):
                         return (
                           <Grid className="field-item" item xs={12} >
-                              <Field component={Radiobtn} f={field} setValue={setFieldValue} />
+                              <Field initialValue={this.state} component={Radiobtn} f={field} setValue={handlSetFieldValue} />
                               <ErrorMessage name={field.name} component="div" />  
                           </Grid>
                         );
                       case(COMPONENTS.checkbox):
                         return(
                           <Grid className="field-item" item xs={12} >
-                            <Field component={Checkbox} f={field} setValue={setFieldValue} />
+                            <Field component={Checkbox} f={field} setValue={handlSetFieldValue} />
                           </Grid>
                         );
                       case(COMPONENTS.selectlist):
                         return (
                           <Grid className="field-item" item xs={12} >
-                            <Selectlist f={field} setValue={setFieldValue} />
+                            <Selectlist f={field} setValue={handlSetFieldValue} />
                           </Grid>
                         );
                       case(COMPONENTS.checklist):
                         return (
                           <Grid className="field-item" item xs={12} >
-                            <Checklist f={field} setValue={setFieldValue} />
+                            <Checklist f={field} setValue={handlSetFieldValue} />
                           </Grid>
                       );
                       case(COMPONENTS.label):
@@ -125,13 +123,11 @@ class Checkup extends Component {
                   })
                 }
                 <div >
-                  {(!this.state.init) && (
                   <Button 
-                  onClick={this.props.handleBack} 
-                  >
+                    onClick={this.props.handleBack} 
+                    >
                     Back
                   </Button>
-                  )}
                   <Button onClick={this.props.handleCancel}
                     variant="contained"
                     color="primary"
@@ -156,11 +152,29 @@ class Checkup extends Component {
       </div>
     );
   }
+
+onEdit = (data) => {
+  console.log("#################$$$$$$$$$$$$ ", data)
+  this.setState(state => {
+    return{
+    ...data,
+    }
+  })
+}
+
+componentDidMount(){
+  // console.log("########################$$$$$$$: ", this.props)
+  if(this.props[0].checkup.patientID!=="default"){
+    const patientID = this.props[0].checkup.patientID
+    this.props.getSingleData(patientID, "checkupData",  this.onEdit, this.onError);
+  }
+}
+
 }
 
 const mapStateToProps = state => {
   return {
-    ...state
+    ...state,
   }
 }
 const mapDispatchToProps = dispatch => {
@@ -168,6 +182,8 @@ const mapDispatchToProps = dispatch => {
       changeValue: (field) => dispatch(changeValue(field)),
       submitData: (data, path, onSuccessful, onError) =>
         dispatch(submitData(data, path, onSuccessful, onError)), 
+      getSingleData: (patientID, path, onEdit, onError)=> 
+        dispatch(getSingleData(patientID, path, onEdit, onError)),
   }
 }
 

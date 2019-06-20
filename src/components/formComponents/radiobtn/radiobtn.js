@@ -7,24 +7,22 @@ import './radiobtn.css'
 
 class Radiobtn extends React.Component {
   
-  state = {
-    value: this.props.f.options[0],
-  };
-
-  handleChange = event => {
-    this.setState({ value: event.target.value });
-    this.props.setValue(this.props.f.name, event.target.value)
-  };
-  
   render(){
+    const {
+      input: { value, onChange }
+    } = this.props
+    const changeit = (valueExtracted) => {
+      console.log("SO WHEN YOU FINISH refactoring check this: ", valueExtracted)
+      onChange(valueExtracted)
+    }
   return (
     <FormControl >
       <p className="radio-btn-label">{this.props.f.placeholder}</p>
     <RadioGroup
      row
       name={this.props.f.name}
-      value={this.state.value}
-      onChange={this.handleChange}
+      value={value}
+      onChange={event => {changeit(event.target.value)}}
     >
     {this.props.f.options.map(option => (
     <FormControlLabel  value={option} control={<Radio />} label={option} />

@@ -7,7 +7,6 @@ class Lab extends Component {
   }
 
   render() {
-    this.props.bindSubmission(this.submit);
     return (
       <div>
         <h1>WELCOME from LAB</h1>

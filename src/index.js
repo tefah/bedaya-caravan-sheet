@@ -6,13 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { reducer as formReducer } from 'redux-form'
 
 import CheckupReducer from 'store/checkup/reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(combineReducers([CheckupReducer]),
 // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-const store = createStore(combineReducers([CheckupReducer]), composeEnhancers(
+const store = createStore(combineReducers({CheckupReducer,form: formReducer}), composeEnhancers(
    applyMiddleware(thunk)));
 
 

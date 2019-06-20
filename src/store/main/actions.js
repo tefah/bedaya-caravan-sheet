@@ -16,16 +16,37 @@ export const submitData = (data, path, onSuccessful, onError) => {
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(jsonRes => {
-      console.log(jsonRes)
-      if(jsonRes.statusCode === 200)
-        onSuccessful();
+    .then(res => {
+      if(res.status === 200)
+        return res.json()
       else{
-        throw (jsonRes)
+        throw (res)
       }
     })
-    .catch(err => {onError(); return console.log("ERROR", err)})
+    .then(jsonRes => {
+      onSuccessful()
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
 
+  }
+}
+
+export const getSingleData = (patientID, path, onSuccessful, onError) => {
+  // console.log("BASEURL", baseURL);
+  console.log("PATIENT_ID", patientID);
+
+  return dispatch => {
+    fetch(`${baseURL}${path}/${patientID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => res.json())
+    .then(jsonRes => {
+      // console.log("JSON RESPONSE$$$$##$$%%%%% ", jsonRes)
+        onSuccessful(jsonRes[0]);
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
   }
 }

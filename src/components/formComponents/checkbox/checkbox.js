@@ -4,11 +4,14 @@ import { Checkbox, FormControlLabel } from '@material-ui/core';
 class CheckBox extends React.Component {
 
   render(){
+    const {
+      input: {  onChange }
+    } = this.props
   return (
     <FormControlLabel
           control={
             <Checkbox
-              onChange={(event, checked) => {this.props.setValue(this.props.f.name, checked)}}
+              onChange={(event, checked) => {onChange(checked)}}
             />
           }
           label={this.props.f.placeholder}

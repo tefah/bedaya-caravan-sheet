@@ -2,7 +2,7 @@ import {checkupData} from 'forms/checkupForm'
 import {CHANGE_VALUE} from './actionTypes'
 
 const initialState = {
-  checkup: {...checkupData.initialValues}
+  checkup: {...checkupData.initialValues, patientID: 'default'}
 };
 
 const reduce = (state = initialState, action = {}) => {

@@ -12,7 +12,7 @@ const initialization = (arr) => {
       case("text"):
         return{[field.name]: '' }
       case("select"):
-      return{[field.name]: null}
+      return{[field.name]: "Female"}
       case("number"):
       return{[field.name]: ''}
       case("checkbox"):
@@ -503,7 +503,8 @@ const checkupFields = [
 ]
 console.log("##########", checkupFields)
 const checkupTemp = initialization(checkupFields)
-const checkupInitialValues = fill(checkupTemp)
+let checkupInitialValues = fill(checkupTemp)
+console.log("#################3 ", checkupInitialValues)
 export const checkupData = {
   fields: checkupFields,
   initialValues: checkupInitialValues,

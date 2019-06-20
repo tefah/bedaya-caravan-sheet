@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
@@ -18,7 +16,7 @@ const styles = {
 
 class SimpleDialog extends React.Component {
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    this.props.onClose();
   };
 
   render() {
@@ -65,7 +63,7 @@ const SimpleDialogWrapped = withStyles(styles)(SimpleDialog);
 class Checklist extends React.Component {
   state = {
     open: false,
-    selectedValue: this.props.f.placeholder
+    selectedValue: this.props.input.value===''?this.props.f.placeholder:this.props.input.value
   };
 
   handleClickOpen = () => {
@@ -74,8 +72,8 @@ class Checklist extends React.Component {
     });
   };
 
-  handleClose = value => {
-    this.setState({ selectedValue: value, open: false });
+  handleClose = () => {
+    this.setState({ selectedValue: this.props.input.value, open: false });
   };
 
   
@@ -90,9 +88,13 @@ class Checklist extends React.Component {
     // value = value[Object.keys(value)[0]] !== 0?value:delete value[0]
     // console.log("VALUEEEEEEEE: ", typeof(value))
     this.setState({ selectedValue: value})
-    this.props.setValue(this.props.f.name, value.toString())
+    this.props.input.onChange(value.toString())
+
   }
   render() {
+    // const {
+    //   input: { value, onChange }
+    // } = this.props
     return (
       <div className={"checklist-label"}>
         <Typography  variant="subtitle1">{this.props.f.placeholder}</Typography>
@@ -101,7 +103,6 @@ class Checklist extends React.Component {
         {this.state.selectedValue.toString()}
         </Button>
         <SimpleDialogWrapped
-          selectedValue={this.state.selectedValue}
           open={this.state.open}
           onClose={this.handleClose}
           f={this.props.f}

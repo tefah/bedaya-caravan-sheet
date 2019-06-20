@@ -20,6 +20,7 @@ import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
 import {submitData, setIP} from 'store/main/actions'
+import CheckupForm from 'pages/formPages/CheckupForm';
 
 const styles = theme => ({
   appBar: {
@@ -78,10 +79,11 @@ class MainPage extends React.Component {
       handelCancel={this.handelCancel} />;
     switch (step) {
       case 0:
-        return <Checkup
+        // return<CheckupForm onSubmit={values => {console.log(values)}} />
+        return <CheckupForm
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        handleNext={this.handleNext}
+        onSubmit={this.handleNext}
         handelCancel={this.handelCancel}/>;
       case 1:
         return <Lab  
@@ -105,7 +107,8 @@ class MainPage extends React.Component {
         return (
         <div>
           <h3 style={{color: 'red'}}>Error occured while submitting<br/>
-          Check your internet or IP address and press the back button</h3>
+          {this.state.error.statusCode===404?"No such user":"Check your internet or IP address and" }
+          press the back button</h3>
           <Button 
           variant="contained"
           color="secondary"
@@ -122,10 +125,11 @@ class MainPage extends React.Component {
   getCheckup = () =>{
     this.setState({init: false})
   }
-  errorWhileSubmitting = () => {
+  errorWhileSubmitting = (err) => {
     this.setState(state => ({
       reservedStep: state.activeStep,
       activeStep: ERROR,
+      error: err
     }))
   }
   handleNext = () => {

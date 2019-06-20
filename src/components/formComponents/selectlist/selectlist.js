@@ -16,6 +16,7 @@ const styles = {
 };
 
 class SimpleDialog extends React.Component {
+
   handleClose = () => {
     this.props.onClose(this.props.selectedValue);
   };
@@ -73,9 +74,10 @@ SimpleDialog.propTypes = {
 const SimpleDialogWrapped = withStyles(styles)(SimpleDialog);
 
 
-class Selectlist extends Component {state = {
+class Selectlist extends Component {
+  state = {
   open: false,
-  selectedValue: this.props.f.placeholder
+  selectedValue: this.props.input.value===''?this.props.f.placeholder:this.props.input.value
 };
 
 handleClickOpen = () => {
@@ -84,30 +86,35 @@ handleClickOpen = () => {
   });
 };
 
-handleClose = value => {
+handleClose = (value) => {
+  // console.log("VALUE_WAS: ",this.props.input.value )
+  // console.log("VALUE_IS: ",value)
   this.setState({ selectedValue: value, open: false });
-  this.props.setValue(this.props.f.name, value)
+  this.props.input.onChange(value)
 };
 
 
 change = value => {
   this.setState({ selectedValue: value})
-  this.props.setValue(this.props.f.name, value)
+  this.props.input.onChange(value)
 }
 render() {
+  const {
+    input: {  value, onChange }
+  } = this.props
   return (
     <div className={"checklist-label"}>
       <Typography  variant="subtitle1">{this.props.f.placeholder}</Typography>
       <br />
       <Button  variant="outlined" color="primary" onClick={this.handleClickOpen}>
-      {this.state.selectedValue}
+        {value === '' ? this.state.selectedValue : value}
       </Button>
       <SimpleDialogWrapped
-        selectedValue={this.state.selectedValue}
+        selectedValue={value}
         open={this.state.open}
         onClose={this.handleClose}
         f={this.props.f}
-        change={this.change}
+        change={onChange}
       />
     </div>
   );
