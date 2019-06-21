@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import { Typography, TextField } from '@material-ui/core';
 import {connect} from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+
 
 import {changeValue} from 'store/checkup/actions'
+import { renderTextField, renderRadioGroup } from 'components/formComponents/formComponents';
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { RadioButton } from 'material-ui/RadioButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class NewPatientScreen extends Component {
   
@@ -22,69 +24,77 @@ class NewPatientScreen extends Component {
   };
 
   render() {
+    const { handleSubmit, load, pristine, reset, submitting } = this.props
+
+
     return (
-      <div>
+      <MuiThemeProvider>
         <Typography className="section-label" variant="h6" gutterBottom>
           Create New Patient
         </Typography>
-        <TextField
-          id="databaseCode"
-          name="databaseCode"
-          label="Database code"
-          fullWidth
-          onChange={(event)=>{this.props.changeValue({name:"patientID",value: event.target.value})}}
-        />
-        <FormControl >
-          <p className="radio-btn-label">Age phase</p>
-          <RadioGroup
-            row
-            name='agePhase'
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
-          <FormControlLabel  value={"adult"} control={<Radio />} label={"Adult"} />
-          <FormControlLabel  value={"child"} control={<Radio />} label={"Child"} />
-          
-          </RadioGroup>
-        </FormControl>
-        <div >
-          {(
-          <Button 
-          disabled
-          onClick={this.props.handleBack} 
-          >
-            Back
-          </Button>
-          )}
-          <Button onClick={this.props.handleCancel}
-            variant="contained"
-            color="primary"
+        <form onSubmit={handleSubmit}>
+          {/* form body*/}
+          <Grid className="field-item" item xs={12} >
+            <Field
+              name={"databaseCode"}
+              component={renderTextField}
+              label={"Database code"}
+            />
+          </Grid> 
+          <Grid className="field-item" item xs={12} >
+            <Field name={'agePhase'} component={renderRadioGroup}>
+            <RadioButton
+              style={{display: 'inline-block', width: 'auto'}}
+              value={"adult"}  label={"Adult"} />
+            <RadioButton
+              style={{display: 'inline-block', width: 'auto'}}
+              value={"child"}  label={"Child"} />
+            </Field>
+          </Grid>
+          <div >
+            {(
+            <Button 
+            disabled
+            onClick={this.props.handleBack} 
             >
-            Cancel
-          </Button>
-          <Button
-            type='submit'
-            variant="contained"
-            color="primary"
-            onClick={this.props.handleNext}
-          >
-            NEXT
-          </Button>
-        </div>
-      </div>
-    );
+              Back
+            </Button>
+            )}
+            <Button onClick={this.props.handleCancel}
+              variant="contained"
+              color="primary"
+              >
+              Cancel
+            </Button>
+            <Button
+              type='submit'
+              variant="contained"
+              color="primary"
+            >
+              NEXT
+            </Button>
+          </div>
+        </form>
+      </MuiThemeProvider>
+      );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-      changeValue: (field) => dispatch(changeValue(field)),
-  }
-}
+NewPatientScreen = reduxForm({
+  // a unique name for the form
+  form: 'newPatient',
+  enableReinitialize: true
+})(NewPatientScreen)
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewPatientScreen);
+// const mapStateToProps = state => {
+//   return {
+//     initialValues: state.checkup,
+//   }
+// }
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     changeData: (data) => dispatch(changeData(data)),
+//   }
+// }
+
+export default (NewPatientScreen);

@@ -1,4 +1,4 @@
-import {CHANGE_VALUE} from './actionTypes'
+import {CHANGE_VALUE_IN_CHECKUP, LOAD_DATA} from './actionTypes'
 
 
 let baseURL = "";
@@ -8,8 +8,15 @@ export const seturl = (ip) =>{
 
 export const changeValue = (field) => {
   return {
-    type: CHANGE_VALUE,
+    type: CHANGE_VALUE_IN_CHECKUP,
     field,
+  };
+}
+
+export const changeData = (data) => {
+  return {
+    type: LOAD_DATA,
+    data,
   };
 }
 

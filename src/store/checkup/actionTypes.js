@@ -1,1 +1,3 @@
-export const CHANGE_VALUE = 'CHANGE_VALUE';
+export const CHANGE_VALUE_IN_CHECKUP = 'CHANGE_VALUE_IN_CHECKUP';
+
+export const LOAD_DATA = 'LOAD_DATA';

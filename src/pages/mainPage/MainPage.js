@@ -20,7 +20,6 @@ import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
 import {submitData, setIP} from 'store/main/actions'
-import CheckupForm from 'pages/formPages/CheckupForm';
 
 const styles = theme => ({
   appBar: {
@@ -75,16 +74,18 @@ class MainPage extends React.Component {
       return <NewPatientScreen
       
       handleBack={this.handleBack}
-      handleNext={this.handleNext}
+      onSubmit={this.handleNext}
       handelCancel={this.handelCancel} />;
     switch (step) {
       case 0:
         // return<CheckupForm onSubmit={values => {console.log(values)}} />
-        return <CheckupForm
+        return <Checkup
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         onSubmit={this.handleNext}
-        handelCancel={this.handelCancel}/>;
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
       case 1:
         return <Lab  
         handleError={this.errorWhileSubmitting}
@@ -122,8 +123,11 @@ class MainPage extends React.Component {
     }
   }
 
-  getCheckup = () =>{
-    this.setState({init: false})
+  getCheckup = (values) =>{
+    this.setState({
+      init: false,
+      values: values
+    })
   }
   errorWhileSubmitting = (err) => {
     this.setState(state => ({
@@ -132,9 +136,10 @@ class MainPage extends React.Component {
       error: err
     }))
   }
-  handleNext = () => {
+  handleNext = (values) => {
+    window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
     if(this.state.init)
-      this.getCheckup();
+      this.getCheckup(values);
     else{
     this.setState(state => ({
       activeStep: state.activeStep + 1,

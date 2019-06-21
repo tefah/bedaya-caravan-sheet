@@ -8,12 +8,12 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form'
 
-import CheckupReducer from 'store/checkup/reducer';
+import checkup from 'store/checkup/reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(combineReducers([CheckupReducer]),
 // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-const store = createStore(combineReducers({CheckupReducer,form: formReducer}), composeEnhancers(
+const store = createStore(combineReducers({checkup,form: formReducer}), composeEnhancers(
    applyMiddleware(thunk)));
 
 
