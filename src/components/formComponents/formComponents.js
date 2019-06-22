@@ -7,12 +7,14 @@ import { AutoComplete } from 'material-ui';
 
 
 export const renderTextField = (
-  { input, label, meta: { touched, error }, ...custom },
+  { input, label, type, meta: { touched, error }, ...custom },
 ) => (
   <TextField
+    type={type}
     hintText={label}
     floatingLabelText={label}
     errorText={touched && error}
+    fullWidth
     {...input}
     {...custom}
   />
@@ -27,7 +29,8 @@ export const renderCheckbox = ({ input, label }) => (
   />
 );
 
-export const renderRadioGroup = ({ input, ...rest }) => (
+export const renderRadioGroup = ({ input,meta: { touched, error, warning }, ...rest }) => (
+  <div>
   <RadioButtonGroup
     style={{display: 'flex', flexWrap: 'wrap', }}
     {...input}
@@ -35,6 +38,10 @@ export const renderRadioGroup = ({ input, ...rest }) => (
     valueSelected={input.value}
     onChange={(event, value) => input.onChange(value)}
   />
+  {touched &&((error && <span style={{color: 'red'}}>{error}</span>) ||
+        (warning && <span>{warning}</span>))}
+  </div>
+  
 );
 
 export const renderFromHelper = ({ touched, error }) => {
@@ -64,7 +71,6 @@ export const renderSelectField = ({
     {renderFromHelper({ touched, error })}
   </FormControl>
 )
-
 
 // export const renderSelectField = (
 //   { input, label, meta: { touched, error }, children, ...custom },

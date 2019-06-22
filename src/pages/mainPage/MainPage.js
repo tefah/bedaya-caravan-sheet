@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import './mainPage.css'
 
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -62,6 +63,7 @@ const styles = theme => ({
 const steps = ['Check up', 'Lab', 'Pharmacy', 'Follow Up'];
 const ERROR = 1000;
 
+
 class MainPage extends React.Component {
   state = {
     activeStep: 0,
@@ -72,9 +74,8 @@ class MainPage extends React.Component {
   getStepContent = (step) => {
     if (this.state.init)
       return <NewPatientScreen
-      
       handleBack={this.handleBack}
-      onSubmit={this.handleNext}
+      onSubmit={this.submitData}
       handelCancel={this.handelCancel} />;
     switch (step) {
       case 0:
@@ -82,7 +83,7 @@ class MainPage extends React.Component {
         return <Checkup
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        onSubmit={this.handleNext}
+        onSubmit={this.submitData}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
@@ -113,7 +114,7 @@ class MainPage extends React.Component {
           <Button 
           variant="contained"
           color="secondary"
-          onClick={this.handleBack}>
+          onClick={this.handleReset}>
             Back
           </Button>
         </div>
@@ -136,16 +137,32 @@ class MainPage extends React.Component {
       error: err
     }))
   }
-  handleNext = (values) => {
-    window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
-    if(this.state.init)
-      this.getCheckup(values);
-    else{
+
+submitData = (data) => {
+  console.log(data)
+  switch(this.state.activeStep){
+    case(0):
+      if(this.state.init)
+        this.getCheckup(data);
+      else{
+        this.props.submitData(data, 'addCheckup', this.handleNext, this.errorWhileSubmitting)
+      }  
+      break;
+    case(1):
+      break;
+    case(2):
+      break;
+    case(3):
+      break;
+          
+
+  }
+}
+
+  handleNext = () => {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    
-  }
   };
 
   handleBack = () => {
@@ -170,30 +187,29 @@ class MainPage extends React.Component {
     });
   };
 
-  bindSubmission = (submition) => {
-    // console.log("SUBMISSION FUN: ", submition)
-    this.submitCurrentForm = submition;
-  }
-
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
 
     return (
-      <React.Fragment>
+      <React.Fragment >
         <CssBaseline />
-        <AppBar position="absolute" color="default" className={classes.appBar}>
-          <Toolbar align="center">
+        <div className={'main-container'}>
+        <AppBar position="absolute" color="default" className={`appbarr ${classes.appBar}`}>
+          <Toolbar align="center" className={'headertb'}>
             <Typography variant="h6" color="inherit" noWrap align="center">
               Bedaya Caravan sheet 2019
             </Typography>
             <TextField
+              id={'iptv'}
+              style={{width: '30%'}}
               label={"Enter IP address"}
               fullWidth
               onChange={(event) => setIP(event.target.value)}
             />
           </Toolbar>
         </AppBar>
+            
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Stepper activeStep={activeStep} className={classes.stepper}>
@@ -216,6 +232,7 @@ class MainPage extends React.Component {
             </React.Fragment>
           </Paper>
         </main>
+        </div>
       </React.Fragment>
     );
   }

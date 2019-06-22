@@ -1,0 +1,19 @@
+header{
+  align-items: center;
+}
+#iptv{
+}
+
+.headertb{
+  width: 100%;
+}
+.main-container{
+  /* border: 10px solid rebeccapurple; */
+  width: 100%;
+  position: absolute ;
+  top : 10px;
+}
+.appbarr{
+  position: fixed;
+  top: 8px;
+}
