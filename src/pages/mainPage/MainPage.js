@@ -21,6 +21,7 @@ import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
 import {submitData, setIP} from 'store/main/actions'
+import Checkup2 from 'pages/formPages/Checkup2';
 
 const styles = theme => ({
   appBar: {
@@ -138,7 +139,7 @@ class MainPage extends React.Component {
     }))
   }
 
-submitData = (data) => {
+  submitData = (data) => {
   console.log(data)
   switch(this.state.activeStep){
     case(0):
@@ -157,7 +158,7 @@ submitData = (data) => {
           
 
   }
-}
+  }
 
   handleNext = () => {
     this.setState(state => ({

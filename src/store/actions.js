@@ -1,4 +1,7 @@
-import {CHANGE_VALUE_IN_CHECKUP, LOAD_DATA} from './actionTypes'
+import {CHANGE_VALUE_IN_CHECKUP, 
+  LOAD_DATA_For_CHECKUP, 
+  CHANGE_VALUE_IN_CHECKUP2,
+  LOAD_DATA_For_CHECKUP2,} from './actionTypes'
 
 
 let baseURL = "";
@@ -6,20 +9,33 @@ export const seturl = (ip) =>{
   baseURL = `http://${ip}:3000/api/`;
 }
 
-export const changeValue = (field) => {
+export const changeValueCheckup = (field) => {
   return {
     type: CHANGE_VALUE_IN_CHECKUP,
     field,
   };
 }
 
-export const changeData = (data) => {
+export const changeDataForCheckup = (data) => {
   return {
-    type: LOAD_DATA,
+    type: LOAD_DATA_For_CHECKUP,
     data,
   };
 }
 
+export const changeValueCheckup2 = (field) => {
+  return {
+    type: CHANGE_VALUE_IN_CHECKUP2,
+    field,
+  };
+}
+
+export const changeDataForCheckup2 = (data) => {
+  return {
+    type: LOAD_DATA_For_CHECKUP2,
+    data,
+  };
+}
 // old specific data submission way
 
 // export const submitCheckup = (checkup, onSuccessful, onError) => {

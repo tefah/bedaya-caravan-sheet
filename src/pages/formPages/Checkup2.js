@@ -2,8 +2,8 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {connect} from 'react-redux'
 
-import {changeValueCheckup, changeDataForCheckup} from 'store/actions'
-import {checkupData} from 'forms/checkupForm'
+import {changeValueCheckup2, changeDataForCheckup2} from 'store/actions'
+import {checkup2Data} from 'forms/checkup2Form'
 import {submitData, getSingleData} from 'store/main/actions'
 import { COMPONENTS } from 'forms/helpers/FormUtils';
 
@@ -18,19 +18,18 @@ import { renderTextField, renderRadioGroup, renderCheckbox, renderSelectField } 
 import validation from 'forms/validation'
 
 
-class Checkup extends React.Component{
+class Checkup2 extends React.Component{
 
 
   onError = (err) =>{this.props.handleError(err)}
   onSuccessful = () => {this.props.handleNext()}
   onEdit = (data) => {
     this.props.changeData(data)
-    
   }
 
   componentDidMount(){
-    console.log("@@@@@@@@@@@@@@: ", this.props.checkup)
-  if(this.props.databaseCode){
+    // console.log("@@@@@@@@@@@@@@: ", this.props)
+  if(this.props.edit){
     const agePhase = this.props.agePhase
     const databaseCode = this.props.databaseCode
     this.props.changeValue({
@@ -41,8 +40,7 @@ class Checkup extends React.Component{
       name: "agePhase",
       value: agePhase
     })
-    const loadedData = this.props.getSingleData(databaseCode, "checkupData",  this.onEdit, this.onError);
-    
+    const loadedData = this.props.getSingleData(databaseCode, "checkup2Data",  this.onEdit, this.onError);
   }
   }
 
@@ -55,7 +53,7 @@ class Checkup extends React.Component{
         <Grid container spacing={24}>
           <form style={{width:'100%'}} onSubmit={handleSubmit}>
             {/* form body*/}
-            {checkupData.fields.map(field => {
+            {checkup2Data.fields.map(field => {
               let valid = []
               if(field.req){
                 if (field.name === 'mobNumber'){
@@ -109,7 +107,6 @@ class Checkup extends React.Component{
                             )
                           )}
                           </Field>
-                        {/* <Field name={field.name} type={COMPONENTS.selectlist} component={Selectlist} f={field}  />                   */}
                       </Grid>
                     );
                   case(COMPONENTS.checklist):
@@ -158,24 +155,24 @@ class Checkup extends React.Component{
   }
 }
 
-Checkup = reduxForm({
+Checkup2 = reduxForm({
   // a unique name for the form
-  form: 'checkup',
+  form: 'checkup2',
   enableReinitialize: true,
   keepDirtyOnReinitialize:true,
-})(Checkup)
+})(Checkup2)
 
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.checkup,
+    initialValues: state.checkup2,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      changeData: (data) => dispatch(changeDataForCheckup(data)),
-      changeValue: (field) => dispatch(changeValueCheckup(field)),
+      changeData: (data) => dispatch(changeDataForCheckup2(data)),
+      changeValue: (field) => dispatch(changeValueCheckup2(field)),
       submitData: (data, path, onSuccessful, onError) =>
         dispatch(submitData(data, path, onSuccessful, onError)), 
       getSingleData: (patientID, path, onEdit, onError)=> 
@@ -183,4 +180,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkup)
+export default connect(mapStateToProps, mapDispatchToProps)(Checkup2)

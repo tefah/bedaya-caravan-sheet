@@ -3,6 +3,7 @@ export const stoolanalysisResults = {
     blood: ['0', '1'],
     mucus: ['0', '1'],
     worm: ['0', '1'],
+    color: ['Brown', 'Green', 'Pale ro clay colored', 'Yellow greasy', 'Black', 'Bright red']
 }
 
 export const microscopicExamination = {
@@ -24,7 +25,7 @@ export const microscopicExamination = {
     wbcs: ['0', '1'],
     rbcs: ['0', '1'],
     hpylori: ['0', '1'],
-    fob: ['0', '1'],
+    fobt: ['0', '1'],
 }
 
 export const submission = {
