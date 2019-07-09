@@ -13,6 +13,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import validation from 'forms/validation'
 import { withStyles } from '@material-ui/styles';
+import './styling.css'
+
 
 const styles = theme => ({
   buttons: {
@@ -77,7 +79,7 @@ class NewPatientScreen extends Component {
                 value={"child"}  label={"Child"} />
               </Field>
             </Grid>
-            <div className={classes.buttons}>
+            <div className={`bottom-btns-tab`}>
               {(
               <Button 
               disabled

@@ -1,7 +1,10 @@
 import {CHANGE_VALUE_IN_CHECKUP, 
   LOAD_DATA_For_CHECKUP, 
   CHANGE_VALUE_IN_CHECKUP2,
-  LOAD_DATA_For_CHECKUP2,} from './actionTypes'
+  LOAD_DATA_For_CHECKUP2,
+CHANGE_VALUE_LAB1, CHANGE_VALUE_LAB2, CHANGE_VALUE_LAB3, CHANGE_VALUE_LAB4,
+LOAD_DATA_LAB1, LOAD_DATA_LAB2, LOAD_DATA_LAB3, LOAD_DATA_LAB4,
+} from './actionTypes'
 
 
 let baseURL = "";
@@ -36,6 +39,57 @@ export const changeDataForCheckup2 = (data) => {
     data,
   };
 }
+
+export const changeValueLab1 = (field) => {
+  return {
+    type: CHANGE_VALUE_LAB1,
+    field,
+  };
+}
+export const changeValueLab2 = (field) => {
+  return {
+    type: CHANGE_VALUE_LAB2,
+    field,
+  };
+}
+export const changeValueLab3 = (field) => {
+  return {
+    type: CHANGE_VALUE_LAB3,
+    field,
+  };
+}
+export const changeValueLab4 = (field) => {
+  return {
+    type: CHANGE_VALUE_LAB4,
+    field,
+  };
+}
+
+export const changeDataLab1 = (data) => {
+  return {
+    type: LOAD_DATA_LAB1,
+    data,
+  };
+}
+export const changeDataLab2 = (data) => {
+  return {
+    type: LOAD_DATA_LAB2,
+    data,
+  };
+}
+export const changeDataLab3 = (data) => {
+  return {
+    type: LOAD_DATA_LAB3,
+    data,
+  };
+}
+export const changeDataLab4 = (data) => {
+  return {
+    type: LOAD_DATA_LAB4,
+    data,
+  };
+}
+
 // old specific data submission way
 
 // export const submitCheckup = (checkup, onSuccessful, onError) => {

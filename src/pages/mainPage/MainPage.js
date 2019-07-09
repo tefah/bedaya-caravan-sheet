@@ -16,12 +16,15 @@ import Typography from '@material-ui/core/Typography';
 import { TextField } from '@material-ui/core';
 
 import Checkup from '../formPages/Checkup';
-import Lab from '../formPages/Lab';
 import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
 import {submitData, setIP} from 'store/main/actions'
 import Checkup2 from 'pages/formPages/Checkup2';
+import Lab1 from 'pages/formPages/Lab1';
+import Lab2 from 'pages/formPages/Lab2';
+import Lab3 from 'pages/formPages/Lab3';
+import Lab4 from 'pages/formPages/Lab4';
 
 const styles = theme => ({
   appBar: {
@@ -40,11 +43,11 @@ const styles = theme => ({
   },
   paper: {
     marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
-    padding: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 10,
+    padding: theme.spacing.unit * 3,
     [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
       marginTop: theme.spacing.unit * 6,
-      marginBottom: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 10,
       padding: theme.spacing.unit * 3,
     },
   },
@@ -70,6 +73,7 @@ class MainPage extends React.Component {
     activeStep: 0,
     reservedStep: 0,
     init: true,
+    substep: 0,
   };
 
   getStepContent = (step) => {
@@ -81,19 +85,57 @@ class MainPage extends React.Component {
     switch (step) {
       case 0:
         // return<CheckupForm onSubmit={values => {console.log(values)}} />
+        if(this.state.substep === 0)
         return <Checkup
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
+        else{
+          return <Checkup2
+          handleError={this.errorWhileSubmitting}
+          handleBack={this.handleBack}
+          handelCancel={this.handelCancel}
+          agePhase={this.state.values.agePhase}
+          databaseCode={this.state.values.databaseCode} />;
+          }
+      case 1:
+        switch(this.state.substep){
+          case(0):
+        return <Lab1
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         onSubmit={this.submitData}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
-      case 1:
-        return <Lab  
+        case(1):
+        return <Lab2
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        handleNext={this.handleNext}
-        handelCancel={this.handelCancel}/>;
+        onSubmit={this.submitData}
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
+        case(2):
+        return <Lab3
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        onSubmit={this.submitData}
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
+        case(3):
+        return <Lab4
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        onSubmit={this.submitData}
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
+        }
       case 2:
         return <Pharmacy 
         handleError={this.errorWhileSubmitting}
@@ -150,10 +192,13 @@ class MainPage extends React.Component {
       }  
       break;
     case(1):
+      this.props.submitData(data, `lab${this.state.substep+1}Data`, this.handleNext, this.errorWhileSubmitting)
       break;
     case(2):
+    this.props.submitData(data, `pharmacy`, this.handleNext, this.errorWhileSubmitting)
       break;
     case(3):
+    this.props.submitData(data, `followup`, this.handleNext, this.errorWhileSubmitting)
       break;
           
 
@@ -161,10 +206,39 @@ class MainPage extends React.Component {
   }
 
   handleNext = () => {
+    const substep = this.state.substep;
+    switch(this.state.activeStep){
+      case(0):
+      if(substep === 1){
+        this.setState({substep: 0})
+        this.nextStep();
+      }else{
+        this.setState({substep: 1})
+      }
+      break;
+      case(1):
+        if(substep < 3){
+          this.setState({substep: substep+1})
+        }else{
+          this.setState({substep: 0})
+          this.nextStep()
+        }
+      break;
+      case(2):
+        this.nextStep()
+      break;
+      case(3):
+        this.nextStep()
+      break;
+      default: 
+      this.nextStep()
+    }
+  };
+  nextStep = () =>{
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-  };
+  }
 
   handleBack = () => {
     if (this.state.activeStep === 0)

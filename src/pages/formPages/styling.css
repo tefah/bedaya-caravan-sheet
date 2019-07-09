@@ -1,0 +1,10 @@
+.bottom-btns-tab{
+  position: fixed;
+  bottom: 4px;
+  left: 1%;
+  background: #f1f1f1 ;
+  padding: 1%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 import {changeValueCheckup, changeDataForCheckup} from 'store/actions'
 import {checkupData} from 'forms/checkupForm'
-import {submitData, getSingleData} from 'store/main/actions'
+import {updateData, submitData, getSingleData} from 'store/main/actions'
 import { COMPONENTS } from 'forms/helpers/FormUtils';
 
 import Grid from '@material-ui/core/Grid';
@@ -14,22 +14,30 @@ import { RadioButton } from 'material-ui/RadioButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import Checklist from 'components/formComponents/checklist/checklist';
-import { renderTextField, renderRadioGroup, renderCheckbox, renderSelectField } from 'components/formComponents/formComponents';
+import { renderTextField, renderRadioGroup, 
+  renderCheckbox, renderSelectField } from 'components/formComponents/formComponents';
 import validation from 'forms/validation'
 
+import './styling.css'
 
 class Checkup extends React.Component{
+  state={
+    editFlage: false,
+  }
 
 
   onError = (err) =>{this.props.handleError(err)}
   onSuccessful = () => {this.props.handleNext()}
   onEdit = (data) => {
-    this.props.changeData(data)
-    
+    // console.log("@@@@@@@@@@@: ", data)
+    if(data){
+      this.props.changeData(data)
+      this.setState({editFlage: true})
+    }
   }
 
   componentDidMount(){
-    console.log("@@@@@@@@@@@@@@: ", this.props.checkup)
+    // console.log("@@@@@@@@@@@@@@: ", this.props.checkup)
   if(this.props.databaseCode){
     const agePhase = this.props.agePhase
     const databaseCode = this.props.databaseCode
@@ -42,7 +50,6 @@ class Checkup extends React.Component{
       value: agePhase
     })
     const loadedData = this.props.getSingleData(databaseCode, "checkupData",  this.onEdit, this.onError);
-    
   }
   }
 
@@ -50,10 +57,17 @@ class Checkup extends React.Component{
     const { handleSubmit, load, pristine, reset, submitting } = this.props
     const {required, alphaNumeric, phoneNumber} = validation 
 
+    const submissionData = (data) => {
+      console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
+      if(!this.state.editFlage)
+        this.props.submitData(data, 'addCheckup', this.props.handleNext, this.handleError)
+      else
+        this.props.submitData(data.patientID, data, 'updateCheckup', this.props.handleNext, this.handleError)  
+    }
     return (
       <MuiThemeProvider>
         <Grid container spacing={24}>
-          <form style={{width:'100%'}} onSubmit={handleSubmit}>
+          <form style={{width:'100%'}} onSubmit={handleSubmit(submissionData)}>
             {/* form body*/}
             {checkupData.fields.map(field => {
               let valid = []
@@ -109,7 +123,7 @@ class Checkup extends React.Component{
                             )
                           )}
                           </Field>
-                        {/* <Field name={field.name} type={COMPONENTS.selectlist} component={Selectlist} f={field}  />                   */}
+{/* <Field name={field.name} type={COMPONENTS.selectlist} component={Selectlist} f={field}  /> */}
                       </Grid>
                     );
                   case(COMPONENTS.checklist):
@@ -180,6 +194,9 @@ const mapDispatchToProps = dispatch => {
         dispatch(submitData(data, path, onSuccessful, onError)), 
       getSingleData: (patientID, path, onEdit, onError)=> 
         dispatch(getSingleData(patientID, path, onEdit, onError)),
+      updateData: (patientID, data, path, onSuccessful, onError) =>
+        dispatch(updateData(patientID, data, path, onSuccessful, onError))
+
   }
 }
 

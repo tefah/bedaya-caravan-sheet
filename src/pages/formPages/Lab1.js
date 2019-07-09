@@ -2,8 +2,8 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {connect} from 'react-redux'
 
-import {changeValueCheckup2, changeDataForCheckup2} from 'store/actions'
-import {checkup2Data} from 'forms/checkup2Form'
+import {changeValueLab1, changeDataLab1} from 'store/actions'
+import {lab1Data} from 'forms/lab1Form'
 import {updateData, submitData, getSingleData} from 'store/main/actions'
 import { COMPONENTS } from 'forms/helpers/FormUtils';
 
@@ -19,7 +19,7 @@ import validation from 'forms/validation'
 import './styling.css'
 
 
-class Checkup2 extends React.Component{
+class Lab1 extends React.Component{
 
   state={
     editFlage: false,
@@ -31,8 +31,7 @@ class Checkup2 extends React.Component{
     if(data){
       this.props.changeData(data)
       this.setState({editFlage: true})
-    }
-  }
+    }  }
 
   componentDidMount(){
     // console.log("@@@@@@@@@@@@@@: ", this.props)
@@ -47,27 +46,26 @@ class Checkup2 extends React.Component{
       name: "agePhase",
       value: agePhase
     })
-    const loadedData = this.props.getSingleData(databaseCode, "checkup2Data",  this.onEdit, this.onError);
+    const loadedData = this.props.getSingleData(databaseCode, "lab1Data",  this.onEdit, this.onError);
   }
   }
 
   render(){
     const { handleSubmit, load, pristine, reset, submitting } = this.props
     const {required, alphaNumeric, phoneNumber} = validation 
-    
     const submissionData = (data) => {
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'checkup2', this.props.handleNext, this.handleError)
+        this.props.submitData(data, 'lab1', this.props.handleNext, this.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateCheckup2', this.props.handleNext, this.handleError)  
+        this.props.submitData(data.patientID, data, 'updateLab1', this.props.handleNext, this.handleError)  
     }
     return (
       <MuiThemeProvider>
         <Grid container spacing={24}>
           <form style={{width:'100%'}} onSubmit={handleSubmit(submissionData)}>
             {/* form body*/}
-            {checkup2Data.fields.map(field => {
+            {lab1Data.fields.map(field => {
               let valid = []
               if(field.req){
                 if (field.name === 'mobNumber'){
@@ -169,24 +167,24 @@ class Checkup2 extends React.Component{
   }
 }
 
-Checkup2 = reduxForm({
+Lab1 = reduxForm({
   // a unique name for the form
-  form: 'checkup2',
+  form: 'lab1',
   enableReinitialize: true,
   keepDirtyOnReinitialize:true,
-})(Checkup2)
+})(Lab1)
 
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.checkup2,
+    initialValues: state.lab1,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      changeData: (data) => dispatch(changeDataForCheckup2(data)),
-      changeValue: (field) => dispatch(changeValueCheckup2(field)),
+      changeData: (data) => dispatch(changeDataLab1(data)),
+      changeValue: (field) => dispatch(changeValueLab1(field)),
       submitData: (data, path, onSuccessful, onError) =>
         dispatch(submitData(data, path, onSuccessful, onError)), 
       getSingleData: (patientID, path, onEdit, onError)=> 
@@ -196,4 +194,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkup2)
+export default connect(mapStateToProps, mapDispatchToProps)(Lab1)

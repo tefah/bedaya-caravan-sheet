@@ -50,3 +50,28 @@ export const getSingleData = (patientID, path, onSuccessful, onError) => {
     .catch(err => {onError(err); return console.log("ERROR", err)})
   }
 }
+export const updateData = (patientID, data, path, onSuccessful, onError) => {
+  // console.log("BASEURL", baseURL);
+  // console.log("PATIENT_ID", patientID);
+
+  return dispatch => {
+    fetch(`${baseURL}${path}/${patientID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      if(res.status === 200)
+        return res.json()
+      else{
+        throw (res)
+      }
+    })
+    .then(jsonRes => {
+      onSuccessful()
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
+  }
+}
