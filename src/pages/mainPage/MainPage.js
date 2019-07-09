@@ -97,6 +97,7 @@ class MainPage extends React.Component {
           return <Checkup2
           handleError={this.errorWhileSubmitting}
           handleBack={this.handleBack}
+          handleNext={this.handleNext}
           handelCancel={this.handelCancel}
           agePhase={this.state.values.agePhase}
           databaseCode={this.state.values.databaseCode} />;
@@ -107,7 +108,7 @@ class MainPage extends React.Component {
         return <Lab1
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        onSubmit={this.submitData}
+        handleNext={this.handleNext}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
@@ -115,7 +116,7 @@ class MainPage extends React.Component {
         return <Lab2
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        onSubmit={this.submitData}
+        handleNext={this.handleNext}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
@@ -123,7 +124,7 @@ class MainPage extends React.Component {
         return <Lab3
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        onSubmit={this.submitData}
+        handleNext={this.handleNext}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
@@ -131,7 +132,7 @@ class MainPage extends React.Component {
         return <Lab4
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
-        onSubmit={this.submitData}
+        handleNext={this.handleNext}
         handelCancel={this.handelCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
@@ -141,13 +142,17 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel} />;
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode}/>;
       case 3:
         return <Followup 
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel} />;
+        handelCancel={this.handelCancel}
+        agePhase={this.state.values.agePhase}
+        databaseCode={this.state.values.databaseCode} />;
       case ERROR:
         return (
         <div>

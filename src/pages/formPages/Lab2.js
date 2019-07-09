@@ -45,7 +45,8 @@ class Lab2 extends React.Component{
       name: "agePhase",
       value: agePhase
     })
-    const loadedData = this.props.getSingleData(databaseCode, "lab2Data",  this.onEdit, this.onError);
+    const loadedData = this.props.getSingleData(databaseCode, "lab2Data", 
+    this.onEdit, this.props.handleError);
   }
   }
 
@@ -56,9 +57,10 @@ class Lab2 extends React.Component{
     const submissionData = (data) => {
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'lab2', this.props.handleNext, this.handleError)
+        this.props.submitData(data, 'lab2', this.props.handleNext, this.props.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateLab2', this.props.handleNext, this.handleError)  
+        this.props.submitData(data.patientID, data, 'updateLab2', 
+        this.props.handleNext, this.props.handleError)  
     }
     return (
       <MuiThemeProvider>
@@ -177,7 +179,7 @@ Lab2 = reduxForm({
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.lab2,
+    initialValues: Object.keys(state.lab2).length > 3?state.lab2:lab2Data.initialValues,
   }
 }
 

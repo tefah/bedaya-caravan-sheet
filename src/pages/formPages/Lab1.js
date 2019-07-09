@@ -56,9 +56,9 @@ class Lab1 extends React.Component{
     const submissionData = (data) => {
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'lab1', this.props.handleNext, this.handleError)
+        this.props.submitData(data, 'lab1', this.props.handleNext, this.props.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateLab1', this.props.handleNext, this.handleError)  
+        this.props.submitData(data.patientID, data, 'updateLab1', this.props.handleNext, this.props.handleError)  
     }
     return (
       <MuiThemeProvider>
@@ -177,7 +177,8 @@ Lab1 = reduxForm({
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.lab1,
+    initialValues: Object.keys(state.lab1).length > 3?state.lab1:lab1Data.initialValues,
+
   }
 }
 

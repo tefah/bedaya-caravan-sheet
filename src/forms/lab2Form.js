@@ -74,7 +74,7 @@ const cbcFields = [
   {
       name: "high",
       type: "select",
-      req: true,
+      req: false,
       placeholder: "High",
       component: "checklist",
       options: []
@@ -82,7 +82,7 @@ const cbcFields = [
   {
       name: "low",
       type: "select",
-      req: true,
+      req: false,
       placeholder: "LOW",
       component: "checklist",
       options: []

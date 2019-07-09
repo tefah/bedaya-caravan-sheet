@@ -177,7 +177,7 @@ Lab3 = reduxForm({
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.lab3,
+    initialValues: Object.keys(state.lab3).length > 3?state.lab3:lab3Data.initialValues,
   }
 }
 

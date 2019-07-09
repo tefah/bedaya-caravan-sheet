@@ -12,7 +12,7 @@ const initialization = (arr) => {
       case("text"):
         return{[field.name]: '' }
       case("select"):
-      return{[field.name]: "Female"}
+      return{[field.name]: field.options[0]}
       case("number"):
       return{[field.name]: ''}
       case("checkbox"):
@@ -94,7 +94,7 @@ const sociodemographicFields = [
   {
     name: "ageOYC",
     type: "text",
-    req: true,
+    req: false,
     placeholder:"Age of the youngest child",
     component: COMPONENTS.input,
     key: 8,
@@ -112,7 +112,7 @@ const sociodemographicFields = [
     name: "consangunity",
     type: "checkbox",
     req: true,
-    placeholder:"onsangunity",
+    placeholder:"Consangunity",
     component: COMPONENTS.checkbox,
     key: 10,
   },
@@ -404,11 +404,6 @@ const anthropometryFields = [
 ] 
 const anthropometryTemp = initialization(anthropometryFields)
 const anthropometryInit = fill(anthropometryTemp)
-// export const anthropometry = {
-//   label: anthropometryLabel,
-//   fields: anthropometryFields,
-//   initialValues: anthropometryInit
-// }
 
 
 const complexionLabel = "Complexion"
@@ -486,11 +481,7 @@ const complexionFields = [
 ] 
 const complexionTemp = initialization(complexionFields)
 const complexionInit = fill(complexionTemp)
-// export const complexion = {
-//   label: complexionLabel,
-//   fields: complexionFields,
-//   initialValues: complexionInit
-// }
+
 
 const checkupFields = [
   ...sociodemographicFields,

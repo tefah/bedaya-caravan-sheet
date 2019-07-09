@@ -10,13 +10,16 @@ import { reducer as formReducer } from 'redux-form'
 
 import checkup from 'store/checkup/reducer';
 import checkup2 from 'store/checkup2/reducer';
-import labs1 from 'store/checkup/reducer';
+import lab1 from 'store/lab/lab1reducer';
+import lab2 from 'store/lab/lab2reducer';
+import lab3 from 'store/lab/lab3reducer';
+import lab4 from 'store/lab/lab4reducer';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(combineReducers([CheckupReducer]),
 // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-const store = createStore(combineReducers({checkup, checkup2,
+const store = createStore(combineReducers({checkup, checkup2, lab1, lab2, lab3, lab4,
   form: formReducer}), composeEnhancers(
    applyMiddleware(thunk)));
 

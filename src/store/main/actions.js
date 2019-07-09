@@ -5,7 +5,7 @@ export const setIP = (ip) =>{
 }
 
 export const submitData = (data, path, onSuccessful, onError) => {
-  // console.log("BASEURL", baseURL);
+  console.log("BASEURL", baseURL, path);
   console.log("DATA", data);
 
   return dispatch => {

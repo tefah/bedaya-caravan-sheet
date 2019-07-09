@@ -58,9 +58,9 @@ class Checkup2 extends React.Component{
     const submissionData = (data) => {
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'checkup2', this.props.handleNext, this.handleError)
+        this.props.submitData(data, 'checkup2', this.props.handleNext, this.props.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateCheckup2', this.props.handleNext, this.handleError)  
+        this.props.updateData(data.patientID, data, 'updateCheckup2', this.props.handleNext, this.props.handleError)  
     }
     return (
       <MuiThemeProvider>
@@ -179,7 +179,7 @@ Checkup2 = reduxForm({
 
 const mapStateToProps = state => {
   return {
-    initialValues: state.checkup2,
+    initialValues: Object.keys(state.checkup2).length > 3?state.checkup2:checkup2Data.initialValues,
   }
 }
 
