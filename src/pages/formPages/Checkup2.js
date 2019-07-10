@@ -56,6 +56,10 @@ class Checkup2 extends React.Component{
     const {required, alphaNumeric, phoneNumber} = validation 
     
     const submissionData = (data) => {
+      data = {
+        ...data,
+        patientID: this.props.databaseCode,
+      }
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
         this.props.submitData(data, 'checkup2', this.props.handleNext, this.props.handleError)

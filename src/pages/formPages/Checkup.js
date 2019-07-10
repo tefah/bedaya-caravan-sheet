@@ -58,12 +58,16 @@ class Checkup extends React.Component{
     const {required, alphaNumeric, phoneNumber} = validation 
 
     const submissionData = (data) => {
+      data = {
+        ...data,
+        patientID: this.props.databaseCode,
+      }
       console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
         this.props.submitData(data, 'addCheckup', this.props.handleNext, this.props.handleError)
       else
         this.props.updateData(data.patientID, data, 'updateCheckup', 
-        this.props.handleNext, this.props.handleError)  
+         this.props.handleNext, this.props.handleError)  
     }
     return (
       <MuiThemeProvider>

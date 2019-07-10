@@ -45,7 +45,7 @@ class Lab3 extends React.Component{
       name: "agePhase",
       value: agePhase
     })
-    const loadedData = this.props.getSingleData(databaseCode, "lab3Data",  this.onEdit, this.onError);
+    const loadedData = this.props.getSingleData(databaseCode, "lab3Data",  this.onEdit, this.props.handleError);
   }
   }
 
@@ -54,11 +54,16 @@ class Lab3 extends React.Component{
     const {required, alphaNumeric, phoneNumber} = validation 
 
     const submissionData = (data) => {
+      data = {
+        ...data,
+        patientID: this.props.databaseCode,
+      }
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'lab3', this.props.handleNext, this.handleError)
+        this.props.submitData(data, 'lab3', this.props.handleNext, this.props.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateLab3', this.props.handleNext, this.handleError)  
+        this.props.updateData(data.patientID, data, 'updateLab3', 
+          this.props.handleNext,  this.props.handleError)  
     }
     return (
       <MuiThemeProvider>

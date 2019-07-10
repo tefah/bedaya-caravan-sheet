@@ -54,11 +54,15 @@ class Lab1 extends React.Component{
     const { handleSubmit, load, pristine, reset, submitting } = this.props
     const {required, alphaNumeric, phoneNumber} = validation 
     const submissionData = (data) => {
+      data = {
+        ...data,
+        patientID: this.props.databaseCode,
+      }
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
         this.props.submitData(data, 'lab1', this.props.handleNext, this.props.handleError)
       else
-        this.props.submitData(data.patientID, data, 'updateLab1', this.props.handleNext, this.props.handleError)  
+        this.props.updateData(data.patientID, data, 'updateLab1', this.props.handleNext, this.props.handleError)  
     }
     return (
       <MuiThemeProvider>
@@ -176,6 +180,9 @@ Lab1 = reduxForm({
 
 
 const mapStateToProps = state => {
+console.log('that is the initial values: ', lab1Data.initialValues)
+console.log('that is the state: ', state.lab1)
+
   return {
     initialValues: Object.keys(state.lab1).length > 3?state.lab1:lab1Data.initialValues,
 

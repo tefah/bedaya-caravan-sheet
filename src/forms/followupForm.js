@@ -5,7 +5,7 @@ const initialization = (arr) => {
       case("text"):
         return{[field.name]: '' }
       case("select"):
-      return{[field.name]: "Female"}
+      return{[field.name]: field.options[0]}
       case("number"):
       return{[field.name]: ''}
       case("checkbox"):
