@@ -25,3 +25,24 @@ reg-form{
 .margin{
   margin-bottom: 3%
 }
+.list-item{
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-around;
+}
+
+.block{
+  display: block;
+}
+.select-field{
+  width: 90%;
+}
+
+.fullwidth{
+  width: 100%;
+}
+
+.remove-btn{
+  height: 60px;
+  text-align: center;
+}

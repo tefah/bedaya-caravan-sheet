@@ -306,7 +306,15 @@ class MainPage extends React.Component {
               </React.Fragment>
               ) : ( //shows step content 
               <React.Fragment>
-                {this.getStepContent(activeStep)}
+                {/* {this.getStepContent(activeStep)} */}
+                <Pharmacy 
+        handleError={this.errorWhileSubmitting}
+        handleBack={this.handleBack}
+        handleNext={this.handleNext}
+        handelCancel={this.handelCancel}
+        agePhase={'adult'}
+        databaseCode={'a10'}/>
+
               </React.Fragment>
               )}
             </React.Fragment>

@@ -1,19 +1,236 @@
 import React, { Component } from 'react';
+import { Field, FieldArray, reduxForm } from 'redux-form'
+import {connect} from 'react-redux'
+import Select from 'react-select'
+
+import { renderTextField,  renderSelectField } from 'components/formComponents/formComponents';
+import {changeValuePharmacy, changeDataPharmacy} from 'store/actions'
+import {updateData, submitData, getSingleData} from 'store/main/actions'
+
+import {suggestions} from 'components/formComponents/autoComplete'
+
+import './styles.css'
+import './styling.css'
+
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { RadioButton } from 'material-ui/RadioButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+import validation from 'forms/validation'
+import meds from 'forms/helpers/meds'
+import { withStyles } from '@material-ui/styles';
+import './styling.css'
+
+
+const styles = theme => ({
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
+});
+
+const renderMedicine = ({ fields, meta: { error } }) => (
+  <ul 
+  className={'margin fieldtv'}
+  >
+    <li>
+      <Button 
+      className={'margin '}
+      type="button"
+       variant="contained"
+       color="primary"
+       onClick={() => fields.push()}>
+        Add Medicine
+      </Button>
+    </li>
+    {fields.map((med, index) => (
+      <li key={index} className={'list-item'}>
+      <div className={'block fullwidth'}>
+      <Field
+        className={' fieldtv '}
+        name={`treatment${index}`}
+        component={Select}
+        options={meds}
+        fullWidth
+        label={'Enter medicine name'}
+        type={'text'}
+      />
+        <Field
+          className={' fieldtv'}
+          name={`ttt${index+1}count`}
+          component={renderTextField}
+          label={`TTT${index+1}count`}
+          type={'number'}
+        />
+        </div>
+      
+      <Button
+      className='remove-btn'
+        type="button"
+        variant="contained"
+        color="secondary"
+        onClick={() => fields.remove(index)}
+      >Remove Medicine</Button>
+    </li>
+    ))}
+    {error && <li className="error">{error}</li>}
+  </ul>
+)
 
 class Pharmacy extends Component {
+  
+  state = {
+    barcode: "",
+    editFlage: false,
+    scan: false,
+  };
 
-  submit = () => {
-    console.log("SUBMITTED from pharmacy");
+  onError = (err) =>{this.props.handleError(err)}
+  onSuccessful = () => {this.props.handleNext()}
+  onEdit = (data) => {
+    if(data){
+      this.props.changeData(data)
+      this.setState({editFlage: true})
+    }  }
+  componentDidMount(){
+    // console.log("@@@@@@@@@@@@@@: ", this.props)
+  if(this.props.databaseCode){
+    const agePhase = this.props.agePhase
+    const databaseCode = this.props.databaseCode
+    this.props.changeValue({
+      name: "patientID",
+      value: databaseCode
+    })
+    this.props.changeValue({
+      name: "agePhase",
+      value: agePhase
+    })
+    const loadedData = this.props.getSingleData(databaseCode, "pharmacyData",  this.onEdit, this.onError);
+  }
+  }
+  barcodeDetected = (barcode) =>{
+    this.setState({scan: false})
+    alert(barcode)
   }
 
   render() {
-    this.props.bindSubmission(this.submit);
+    const { handleSubmit, load, pristine, reset, submitting } = this.props
+    const {required, alphaNumeric, phoneNumber} = validation 
+    const { classes } = this.props;
+    const submissionData = (data) => {
+      data = {
+        ...data,
+        patientID: this.props.databaseCode,
+      }
+      // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
+      if(!this.state.editFlage)
+        this.props.submitData(data, 'pharmacy', this.props.handleNext, this.props.handleError)
+      else
+        this.props.updateData(data.patientID, data, 'updatePharmacy', this.props.handleNext, this.props.handleError)  
+    }
+
     return (
-      <div>
-        <h1>hello from Pharmacy</h1>
-      </div>
-    );
+      <MuiThemeProvider style={{width:'100%'}} >
+        <div className="container">
+         <Grid container spacing={3} direction="row"
+          justify="space-evenly"
+          alignItems="center">
+          <Typography className="section-label" variant="h6" gutterBottom>
+            Pharmacy
+          </Typography>
+          <form style={{width:'100%'}} onSubmit={handleSubmit(submissionData)}>
+            {/* form body*/}
+            <Typography className="section-label" variant="h6" gutterBottom>
+            External referal
+          </Typography>
+            <Grid className="field-item" item xs={12} >
+              <Field name={"referal"} className={'margin select-field'} 
+              component={renderSelectField} label={'Referal/Purpose'}>
+                <option value={'yes'}>Yes</option> 
+                <option value={'demerdash'}>Refer to el Demerdash</option>
+                <option value={'benisuef'}>Refer to beni suef hospital</option>
+              </Field>
+            </Grid> 
+            <Typography className="section-label" variant="h6" gutterBottom>
+              Diagnosis
+            </Typography>
+            <Grid className="field-item" item xs={12} >
+              <Field
+                className={'margin fieldtv'}
+                name={'diagnosis'}
+                component={renderTextField}
+                label={'Diagnosis'}
+                type={'text'}
+              />
+            </Grid>
+            <Typography className="section-label" variant="h6" gutterBottom>
+              Treatment
+            </Typography>
+            <Grid className="field-item" item xs={12} >
+              <FieldArray name="meds" component={renderMedicine} />
+            </Grid>
+            <div className={`bottom-btns-tab`}>
+              {(
+              <Button 
+              disabled
+              onClick={this.props.handleBack} 
+              >
+                Back
+              </Button>
+              )}
+              <Button onClick={this.props.handleCancel}
+                variant="contained"
+                color="primary"
+                >
+                Cancel
+              </Button>
+              <Button
+                type='submit'
+                variant="contained"
+                color="primary"
+              >
+                NEXT
+              </Button>
+            </div>
+          </form>
+        </Grid>
+        </div>
+      </MuiThemeProvider>
+      )
   }
 }
 
-export default Pharmacy;
+Pharmacy = reduxForm({
+  // a unique name for the form
+  form: 'pharmacy',
+  enableReinitialize: true
+})(Pharmacy)
+
+const mapStateToProps = state => {
+    return {
+      initialValues: {},
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+        changeData: (data) => dispatch(changeDataPharmacy(data)),
+        changeValue: (field) => dispatch(changeValuePharmacy(field)),
+        submitData: (data, path, onSuccessful, onError) =>
+          dispatch(submitData(data, path, onSuccessful, onError)), 
+        getSingleData: (patientID, path, onEdit, onError)=> 
+          dispatch(getSingleData(patientID, path, onEdit, onError)),
+          updateData: (patientID, data, path, onSuccessful, onError) =>
+            dispatch(updateData(patientID, data, path, onSuccessful, onError))
+    }
+  }
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Pharmacy)
