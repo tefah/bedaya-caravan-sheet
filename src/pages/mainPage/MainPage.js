@@ -244,21 +244,45 @@ class MainPage extends React.Component {
       activeStep: state.activeStep + 1,
     }));
   }
+  previousStep = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }))
+  }
 
   handleBack = () => {
-    if (this.state.activeStep === 0)
-      this.setState({init: true})
-    else if(this.state.activeStep === ERROR){
-      this.setState(state => ({
-        activeStep: state.reservedStep,
-        reservedStep: 0,
-      }))
+    const substep = this.state.substep;
+    
+    switch(this.state.activeStep){
+      case(0):
+      if(substep === 1)
+        this.setState({substep: 0})
+      else if(substep === 0)
+        this.setState({init: true})
+      break;
+      case(1):
+        if(substep === 0){
+          this.setState({substep: 1})
+          this.previousStep()
+        }else{
+          this.setState({substep: substep - 1})
+        }
+      break;
+      case(2):
+        this.previousStep()
+      break;
+      case(3):
+        this.previousStep()
+      break;
+      case(ERROR):
+        this.setState(state => ({
+          activeStep: state.reservedStep,
+          reservedStep: 0,
+        }))
+      break;
+      default: 
+      this.previousStep()
     }
-    else {
-      this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
-  }
   };
 
   handleReset = () => {
@@ -306,14 +330,14 @@ class MainPage extends React.Component {
               </React.Fragment>
               ) : ( //shows step content 
               <React.Fragment>
-                {/* {this.getStepContent(activeStep)} */}
-                <Pharmacy 
+                {this.getStepContent(activeStep)}
+                {/* <Pharmacy 
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
         handelCancel={this.handelCancel}
         agePhase={'adult'}
-        databaseCode={'a10'}/>
+        databaseCode={'a10'}/> */}
 
               </React.Fragment>
               )}

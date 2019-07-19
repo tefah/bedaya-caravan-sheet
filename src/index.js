@@ -14,12 +14,15 @@ import lab1 from 'store/lab/lab1reducer';
 import lab2 from 'store/lab/lab2reducer';
 import lab3 from 'store/lab/lab3reducer';
 import lab4 from 'store/lab/lab4reducer';
+import pharmacy from 'store/pharmacy/reducer';
+import followup from 'store/followup/reducer';
+
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(combineReducers([CheckupReducer]),
 // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-const store = createStore(combineReducers({checkup, checkup2, lab1, lab2, lab3, lab4,
+const store = createStore(combineReducers({checkup, checkup2, lab1, lab2, lab3, lab4, pharmacy, followup,
   form: formReducer}), composeEnhancers(
    applyMiddleware(thunk)));
 
