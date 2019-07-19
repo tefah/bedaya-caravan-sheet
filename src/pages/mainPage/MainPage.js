@@ -97,6 +97,7 @@ class MainPage extends React.Component {
         databaseCode={this.state.values.databaseCode} />;
         else{
           return <Checkup2
+          navigate={this.navigateTo}
           handleError={this.errorWhileSubmitting}
           handleBack={this.handleBack}
           handleNext={this.handleNext}
@@ -108,6 +109,7 @@ class MainPage extends React.Component {
         switch(this.state.substep){
           case(0):
         return <Lab1
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -116,6 +118,7 @@ class MainPage extends React.Component {
         databaseCode={this.state.values.databaseCode} />;
         case(1):
         return <Lab2
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -124,6 +127,7 @@ class MainPage extends React.Component {
         databaseCode={this.state.values.databaseCode} />;
         case(2):
         return <Lab3
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -132,6 +136,7 @@ class MainPage extends React.Component {
         databaseCode={this.state.values.databaseCode} />;
         case(3):
         return <Lab4
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -141,6 +146,7 @@ class MainPage extends React.Component {
         }
       case 2:
         return <Pharmacy 
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -149,6 +155,7 @@ class MainPage extends React.Component {
         databaseCode={this.state.values.databaseCode}/>;
       case 3:
         return <Followup 
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}

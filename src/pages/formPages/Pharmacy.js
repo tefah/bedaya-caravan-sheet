@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import {connect} from 'react-redux'
-import Select from 'react-select'
 
 import { renderTextField,  renderSelectField } from 'components/formComponents/formComponents';
 import {changeValuePharmacy, changeDataPharmacy} from 'store/actions'
@@ -11,16 +10,22 @@ import {updateData, submitData, getSingleData} from 'store/main/actions'
 import './styles.css'
 import './styling.css'
 
-import Button from '@material-ui/core/Button';
+
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { RadioButton } from 'material-ui/RadioButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import validation from 'forms/validation'
 import meds from 'forms/helpers/meds'
 import { withStyles } from '@material-ui/styles';
 import './styling.css'
+import { FINISH } from 'pages/mainPage/MainPage';
 import CustomSelect from 'components/select/select';
 
 
@@ -96,6 +101,7 @@ class Pharmacy extends Component {
     barcode: "",
     editFlage: false,
     scan: false,
+    navigateTo:'checkup',
   };
 
   onError = (err) =>{this.props.handleError(err)}
@@ -127,6 +133,36 @@ class Pharmacy extends Component {
     alert(barcode)
   }
 
+
+  handleNext = () => {
+    switch(this.state.navigateTo){
+      case('checkup'):
+      this.props.navigate(0)
+      break;
+      case('labs'):
+      this.props.navigate(1)
+      break;
+      case('pharmacy'):
+        this.props.navigate(2)
+      break;
+      case('followup'):
+        this.props.navigate(3)
+      break;
+      case('finish'):
+        this.props.navigate(FINISH)
+      break;
+      default:
+        this.onSuccessful()
+    }
+  }
+   handleChange = (event) => {
+    this.setState(state => ({
+      ...state,
+      navigateTo: event.target.value,
+    }));
+    console.log('=================> ', this.state)
+  }
+
   render() {
     const { handleSubmit, load, pristine, reset, submitting } = this.props
     const {required, alphaNumeric, phoneNumber} = validation 
@@ -138,9 +174,9 @@ class Pharmacy extends Component {
       }
       // console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'pharmacy', this.props.handleNext, this.props.handleError)
+        this.props.submitData(data, 'pharmacy', this.handleNext, this.props.handleError)
       else
-        this.props.updateData(data.patientID, data, 'updatePharmacy', this.props.handleNext, this.props.handleError)  
+        this.props.updateData(data.patientID, data, 'updatePharmacy', this.handleNext, this.props.handleError)  
     }
 
     return (
@@ -184,6 +220,19 @@ class Pharmacy extends Component {
             <Grid className="field-item" item xs={12} >
               <FieldArray name="meds" component={renderMedicine} />
             </Grid>
+            <div className={'stations-btns-tab'} >
+            <FormControl >
+              <InputLabel>Stations</InputLabel>
+              <Select
+                value={this.state.navigateTo}
+                onChange={this.handleChange}
+              >
+                {['checkup', 'labs', 'pharmacy', 'followup', 'finish'].map(elem =>{
+                  return <MenuItem value={elem}>{elem}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+            </div>
             <div className={`bottom-btns-tab`}>
               {(
               <Button 

@@ -44,6 +44,25 @@ class Checkup extends React.Component{
       this.setState({editFlage: true})
     }
   }
+  
+
+  componentDidMount(){
+    // console.log("@@@@@@@@@@@@@@: ", this.props.handelCancel)
+  if(this.props.databaseCode){
+    const agePhase = this.props.agePhase
+    const databaseCode = this.props.databaseCode
+    this.props.changeValue({
+      name: "patientID",
+      value: databaseCode
+    })
+    this.props.changeValue({
+      name: "agePhase",
+      value: agePhase
+    })
+    const loadedData = this.props.getSingleData(databaseCode, "checkupData",  this.onEdit, this.onError);
+  }
+  }
+  
   handleNext = () => {
     switch(this.state.navigateTo){
       case('checkup'):
@@ -65,24 +84,6 @@ class Checkup extends React.Component{
         this.onSuccessful()
     }
   }
-
-  componentDidMount(){
-    // console.log("@@@@@@@@@@@@@@: ", this.props.handelCancel)
-  if(this.props.databaseCode){
-    const agePhase = this.props.agePhase
-    const databaseCode = this.props.databaseCode
-    this.props.changeValue({
-      name: "patientID",
-      value: databaseCode
-    })
-    this.props.changeValue({
-      name: "agePhase",
-      value: agePhase
-    })
-    const loadedData = this.props.getSingleData(databaseCode, "checkupData",  this.onEdit, this.onError);
-  }
-  }
-
    handleChange = (event) => {
     this.setState(state => ({
       ...state,
