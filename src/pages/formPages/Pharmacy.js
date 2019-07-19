@@ -101,7 +101,7 @@ class Pharmacy extends Component {
     barcode: "",
     editFlage: false,
     scan: false,
-    navigateTo:'checkup',
+    navigateTo:'',
   };
 
   onError = (err) =>{this.props.handleError(err)}

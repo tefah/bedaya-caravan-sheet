@@ -16,6 +16,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 import Checklist from 'components/formComponents/checklist/checklist';
 import { renderTextField, renderRadioGroup, renderCheckbox, renderSelectField } from 'components/formComponents/formComponents';
@@ -28,7 +30,7 @@ class Checkup2 extends React.Component{
 
   state={
     editFlage: false,
-    navigateTo:'checkup',
+    navigateTo:'',
   }
 
   onError = (err) =>{this.props.handleError(err)}
@@ -130,6 +132,8 @@ class Checkup2 extends React.Component{
                     );
                   case(COMPONENTS.radio):
                     return (
+                      <div>
+                      <FormLabel component="legend">{field.placeholder}</FormLabel>
                       <Grid className="field-item" item xs={12} >
                           <Field name={field.name} component={renderRadioGroup} className={'margin radio'}
                           validate={valid}>
@@ -141,6 +145,7 @@ class Checkup2 extends React.Component{
                           )}
                           </Field>
                       </Grid>
+                      </div>
                     );
                   case(COMPONENTS.checkbox):
                     return(

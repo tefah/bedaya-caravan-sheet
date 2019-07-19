@@ -1,7 +1,9 @@
-let   baseURL = `http://192.168.1.100:3001/api/`;
+import ls from 'local-storage'
+let   baseURL = `http://${ls.get('ip')}:3001/api/`;
 
 export const setIP = (ip) =>{
   baseURL = `http://${ip}:3001/api/`;
+  ls.set('ip', ip)
 }
 
 export const submitData = (data, path, onSuccessful, onError) => {
@@ -82,6 +84,47 @@ export const getData = ( path, onSuccessful, onError) => {
 
   return dispatch => {
     fetch(`${baseURL}${path}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => res.json())
+    .then(jsonRes => {
+      // console.log("JSON RESPONSE$$$$##$$%%%%% ", jsonRes)
+        onSuccessful(jsonRes);
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
+  }
+}
+
+export const deletePatient = ( patientID, path, onSuccessful, onError) => {
+  // console.log("BASEURL", baseURL);
+  // console.log("PATIENT_ID", patientID);
+
+  return dispatch => {
+    fetch(`${baseURL}${path}/${patientID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => res.json())
+    .then(jsonRes => {
+      getData(path, onSuccessful, onError)
+      // console.log("JSON RESPONSE$$$$##$$%%%%% ", jsonRes)
+        // onSuccessful(jsonRes);
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
+  }
+}
+
+export const extractCSV = (onSuccessful, onError) => {
+  // console.log("BASEURL", baseURL);
+  // console.log("PATIENT_ID", patientID);
+
+  return dispatch => {
+    fetch(`${baseURL}extractcsv`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

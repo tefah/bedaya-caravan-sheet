@@ -10,10 +10,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { RadioButton } from 'material-ui/RadioButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 import validation from 'forms/validation'
 import { withStyles } from '@material-ui/styles';
 import './styling.css'
+import { fields } from 'forms/newPtientForm';
+
 
 
 const styles = theme => ({
@@ -67,8 +71,12 @@ class NewPatientScreen extends Component {
                 validate={[required, alphaNumeric]}
               />
             </Grid> 
+
+            <FormLabel component="legend" style={{alignContent: 'center'}}>{'Age phase'}</FormLabel>
             <Grid className="field-item" item xs={12} >
-              <Field className={'margin radio'} name={'agePhase'} component={renderRadioGroup}
+              <Field className={'margin radio'}
+               name={'agePhase'} 
+               component={renderRadioGroup}
               validate={required}
               >
               <RadioButton

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 
 import '../mainPage/mainPage.css'
-import {getData, setIP} from 'store/main/actions'
+import {getData, setIP, extractCSV, deletePatient} from 'store/main/actions'
 import withStyles from '@material-ui/core/styles/withStyles';
 import {positions} from  '@material-ui/system';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -86,6 +86,10 @@ class HomePage extends React.Component{
     this.props.history.push('/addnew', {edit: true, data: data,})
   }
   delete = (data)=> {
+    console.log(data)
+    this.props.deletePatient(data.patientID, 'deletePatient', this.onSuccessful, this.onError)
+  }
+  extractCSV = () => {
 
   }
 
@@ -131,10 +135,18 @@ class HomePage extends React.Component{
                   {
                     icon: 'delete',
                     tooltip: 'Delete Patient',
-                    onClick: (event, rowData) => alert("You want to delete " + rowData.name)
+                    onClick: (event, rowData) => this.delete(rowData)
                   }
                 ]}
               />
+            </React.Fragment>
+            <React.Fragment>
+              <Button onClick={this.extractCSV}
+                variant="contained"
+                color="primary"
+                >
+                Extract CSV
+              </Button>
             </React.Fragment>
           </Paper>
         </main>
@@ -166,7 +178,10 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
         getData: (path, onSuccessful, onError) =>
-            dispatch(getData(path, onSuccessful, onError))
+            dispatch(getData(path, onSuccessful, onError)),
+        deletePatient: (patientID, path, onSuccessful, onError )=>
+            dispatch(deletePatient(patientID, path, onSuccessful, onError)),
+        extractCSV: () => dispatch(extractCSV())
     }
   }
 

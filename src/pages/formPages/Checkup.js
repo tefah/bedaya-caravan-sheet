@@ -16,6 +16,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 import Checklist from 'components/formComponents/checklist/checklist';
 import { renderTextField, renderRadioGroup, 
@@ -159,8 +161,12 @@ class Checkup extends React.Component{
                     );
                   case(COMPONENTS.radio):
                     return (
+                      <div>
+                      <FormLabel component="legend">{field.placeholder}</FormLabel>
                       <Grid className="field-item" item xs={12} >
-                          <Field name={field.name} component={renderRadioGroup} className={'margin radio'}
+                          <Field name={field.name} 
+                          label={field.placeholder} 
+                          component={renderRadioGroup} className={'margin radio'}
                           validate={valid}>
                           {field.options.map(option => (
                             <RadioButton
@@ -170,6 +176,7 @@ class Checkup extends React.Component{
                           )}
                           </Field>
                       </Grid>
+                      </div>
                     );
                   case(COMPONENTS.checkbox):
                     return(

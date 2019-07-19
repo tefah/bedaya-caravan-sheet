@@ -37,7 +37,7 @@ class Followup extends React.Component{
 
   state={
     editFlage: false,
-    navigateTo:'checkup',
+    navigateTo:'',
   }
 
   onError = (err) =>{this.props.handleError(err)}
