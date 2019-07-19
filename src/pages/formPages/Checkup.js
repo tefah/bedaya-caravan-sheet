@@ -12,6 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { RadioButton } from 'material-ui/RadioButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import Checklist from 'components/formComponents/checklist/checklist';
 import { renderTextField, renderRadioGroup, 
@@ -19,6 +23,7 @@ import { renderTextField, renderRadioGroup,
 import validation from 'forms/validation'
 
 import './styling.css'
+import { FINISH } from 'pages/mainPage/MainPage';
 
 const childrenSpecifics = ['orderOfBirth', 'fathersEducationLevel', 'mothersEducationLevel']
 const adultSpecifics = ['childrenNumber', 'ageOYC', 'educationlLevel']
@@ -26,6 +31,7 @@ const adultSpecifics = ['childrenNumber', 'ageOYC', 'educationlLevel']
 class Checkup extends React.Component{
   state={
     editFlage: false,
+    navigateTo:'checkup',
   }
 
 
@@ -36,6 +42,27 @@ class Checkup extends React.Component{
     if(data){
       this.props.changeData(data)
       this.setState({editFlage: true})
+    }
+  }
+  handleNext = () => {
+    switch(this.state.navigateTo){
+      case('checkup'):
+        this.onSuccessful()
+      break;
+      case('labs'):
+      this.props.navigate(1)
+      break;
+      case('pharmacy'):
+        this.props.navigate(2)
+      break;
+      case('followup'):
+        this.props.navigate(3)
+      break;
+      case('finish'):
+        this.props.navigate(FINISH)
+      break;
+      default:
+        this.onSuccessful()
     }
   }
 
@@ -56,6 +83,14 @@ class Checkup extends React.Component{
   }
   }
 
+   handleChange = (event) => {
+    this.setState(state => ({
+      ...state,
+      navigateTo: event.target.value,
+    }));
+    // console.log('=================> ', this.state)
+  }
+
   render(){
     const { handleSubmit, load, pristine, reset, submitting } = this.props
     const {required, alphaNumeric, phoneNumber} = validation 
@@ -67,10 +102,10 @@ class Checkup extends React.Component{
       }
       console.log("!!!!!!!!!!!@@@@@@@@@###########: ", data)
       if(!this.state.editFlage)
-        this.props.submitData(data, 'addCheckup', this.props.handleNext, this.props.handleError)
+        this.props.submitData(data, 'addCheckup', this.handleNext, this.props.handleError)
       else
         this.props.updateData(data.patientID, data, 'updateCheckup', 
-         this.props.handleNext, this.props.handleError)  
+         this.handleNext, this.props.handleError)  
     }
     // splice for child vs adult fields 
     const fields = [...checkupData.fields]
@@ -173,6 +208,19 @@ class Checkup extends React.Component{
                 }
               })
             }
+            <div className={'stations-btns-tab'} >
+            <FormControl >
+              <InputLabel>Stations</InputLabel>
+              <Select
+                value={this.state.navigateTo}
+                onChange={this.handleChange}
+              >
+                {['checkup', 'labs', 'pharmacy', 'followup', 'finish'].map(elem =>{
+                  return <MenuItem value={elem}>{elem}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+            </div>
             <div className={'bottom-btns-tab'} >
               <Button 
                 onClick={this.props.handleBack} 

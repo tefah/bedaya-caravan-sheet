@@ -66,6 +66,7 @@ const styles = theme => ({
 
 const steps = ['Check up', 'Lab', 'Pharmacy', 'Follow Up'];
 const ERROR = 1000;
+export const FINISH = 122;
 
 
 class MainPage extends React.Component {
@@ -87,6 +88,7 @@ class MainPage extends React.Component {
         // return<CheckupForm onSubmit={values => {console.log(values)}} />
         if(this.state.substep === 0)
         return <Checkup
+        navigate={this.navigateTo}
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
@@ -167,11 +169,20 @@ class MainPage extends React.Component {
           </Button>
         </div>
         )
+        case(FINISH):
+          this.handleCancel()
+          break;
       default:
         throw new Error('Unknown step');
     }
   }
 
+  navigateTo = (step) => {
+    this.setState({
+      activeStep: step,
+      substep: 0,
+    })
+  }
   getCheckup = (values) =>{
     if(this.state.init)
       this.setState({
