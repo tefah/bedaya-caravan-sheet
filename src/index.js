@@ -28,7 +28,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(combineReducers([CheckupReducer]),
 // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 const store = createStore(combineReducers({checkup, checkup2, lab1, lab2, lab3, lab4,
-   pharmacy, followup, mainReducer,
+   pharmacy, followup, 
   form: formReducer}), composeEnhancers(
    applyMiddleware(thunk)));
 

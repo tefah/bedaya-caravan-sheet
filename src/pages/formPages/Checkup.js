@@ -20,6 +20,9 @@ import validation from 'forms/validation'
 
 import './styling.css'
 
+const childrenSpecifics = ['orderOfBirth', 'fathersEducationLevel', 'mothersEducationLevel']
+const adultSpecifics = ['childrenNumber', 'ageOYC', 'educationlLevel']
+
 class Checkup extends React.Component{
   state={
     editFlage: false,
@@ -69,12 +72,26 @@ class Checkup extends React.Component{
         this.props.updateData(data.patientID, data, 'updateCheckup', 
          this.props.handleNext, this.props.handleError)  
     }
+    // splice for child vs adult fields 
+    const fields = [...checkupData.fields]
+    if(this.props.agePhase === 'adult')
+      fields.forEach((elem, index) => {
+        if(childrenSpecifics.includes(elem.name))
+          fields.splice(index, 1)
+          console.log(elem.name, childrenSpecifics.includes(elem.name) )
+      })
+      else if(this.props.agePhase === 'child')
+      fields.forEach((elem, index) => {
+        if(adultSpecifics.includes(elem.name))
+        fields.splice(index, 1)
+      })
+      // console.log("<<<<<<<<<<>>>>>>>>>>: ", fields)
     return (
       <MuiThemeProvider>
         <Grid container spacing={24}>
           <form style={{width:'100%'}} onSubmit={handleSubmit(submissionData)}>
             {/* form body*/}
-            {checkupData.fields.map(field => {
+            {fields.map(field => {
               let valid = []
               if(field.req){
                 if (field.name === 'mobNumber'){
@@ -83,6 +100,13 @@ class Checkup extends React.Component{
                   valid = [required]
                 }
               }
+              if(this.props.agePhase === 'adult' && childrenSpecifics.includes(field.name))
+                return;
+                else if(this.props.agePhase === 'child' && adultSpecifics.includes(field.name))
+                  return;
+                console.log(field.name, childrenSpecifics.includes(field.name) )
+                
+                    
                 switch(field.component){
                   case(COMPONENTS.input):
                     return ( 
