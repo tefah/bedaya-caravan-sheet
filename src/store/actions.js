@@ -3,7 +3,7 @@ import {CHANGE_VALUE_IN_CHECKUP,
   CHANGE_VALUE_IN_CHECKUP2,
   LOAD_DATA_For_CHECKUP2,
 CHANGE_VALUE_LAB1, CHANGE_VALUE_LAB2, CHANGE_VALUE_LAB3, CHANGE_VALUE_LAB4,CHANGE_VALUE_PHARMACY,
-LOAD_DATA_LAB1, LOAD_DATA_LAB2, LOAD_DATA_LAB3, LOAD_DATA_LAB4, LOAD_DATA_PHARMACY,
+LOAD_DATA_LAB1, LOAD_DATA_LAB2, LOAD_DATA_LAB3, LOAD_DATA_LAB4, LOAD_DATA_PHARMACY, CHANGE_VALUE_FOLLOWUP, LOAD_DATA_FOLLOWUP,
 } from './actionTypes'
 
 
@@ -102,6 +102,20 @@ export const changeDataPharmacy = (data) => {
     data,
   };
 }
+
+export const changeValueFollowup = (field) => {
+  return {
+    type: CHANGE_VALUE_FOLLOWUP,
+    field,
+  };
+}
+export const changeDataFollowup = (data) => {
+  return {
+    type: LOAD_DATA_FOLLOWUP,
+    data,
+  };
+}
+
 // old specific data submission way
 
 // export const submitCheckup = (checkup, onSuccessful, onError) => {

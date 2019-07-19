@@ -19,7 +19,7 @@ import Checkup from '../formPages/Checkup';
 import Pharmacy from '../formPages/Pharmacy';
 import Followup from '../formPages/Followup';
 import NewPatientScreen from '../formPages/NewPatientScreen';
-import {submitData, setIP} from 'store/main/actions'
+import {submitData, setIP, resetState} from 'store/main/actions'
 import Checkup2 from 'pages/formPages/Checkup2';
 import Lab1 from 'pages/formPages/Lab1';
 import Lab2 from 'pages/formPages/Lab2';
@@ -80,8 +80,8 @@ class MainPage extends React.Component {
     if (this.state.init)
       return <NewPatientScreen
       handleBack={this.handleBack}
-      onSubmit={this.submitData}
-      handelCancel={this.handelCancel} />;
+      onSubmit={this.getCheckup}
+      handleCancel={this.handleCancel} />;
     switch (step) {
       case 0:
         // return<CheckupForm onSubmit={values => {console.log(values)}} />
@@ -90,7 +90,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
         else{
@@ -98,7 +98,7 @@ class MainPage extends React.Component {
           handleError={this.errorWhileSubmitting}
           handleBack={this.handleBack}
           handleNext={this.handleNext}
-          handelCancel={this.handelCancel}
+          handleCancel={this.handleCancel}
           agePhase={this.state.values.agePhase}
           databaseCode={this.state.values.databaseCode} />;
           }
@@ -109,7 +109,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
         case(1):
@@ -117,7 +117,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
         case(2):
@@ -125,7 +125,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
         case(3):
@@ -133,7 +133,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
         }
@@ -142,7 +142,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode}/>;
       case 3:
@@ -150,7 +150,7 @@ class MainPage extends React.Component {
         handleError={this.errorWhileSubmitting}
         handleBack={this.handleBack}
         handleNext={this.handleNext}
-        handelCancel={this.handelCancel}
+        handleCancel={this.handleCancel}
         agePhase={this.state.values.agePhase}
         databaseCode={this.state.values.databaseCode} />;
       case ERROR:
@@ -173,10 +173,11 @@ class MainPage extends React.Component {
   }
 
   getCheckup = (values) =>{
-    this.setState({
-      init: false,
-      values: values
-    })
+    if(this.state.init)
+      this.setState({
+        init: false,
+        values: values
+      })
   }
   errorWhileSubmitting = (err) => {
     this.setState(state => ({
@@ -184,30 +185,6 @@ class MainPage extends React.Component {
       activeStep: ERROR,
       error: err
     }))
-  }
-
-  submitData = (data) => {
-  console.log(data)
-  switch(this.state.activeStep){
-    case(0):
-      if(this.state.init)
-        this.getCheckup(data);
-      else{
-        this.props.submitData(data, 'addCheckup', this.handleNext, this.errorWhileSubmitting)
-      }  
-      break;
-    case(1):
-      this.props.submitData(data, `lab${this.state.substep+1}Data`, this.handleNext, this.errorWhileSubmitting)
-      break;
-    case(2):
-    this.props.submitData(data, `pharmacy`, this.handleNext, this.errorWhileSubmitting)
-      break;
-    case(3):
-    this.props.submitData(data, `followup`, this.handleNext, this.errorWhileSubmitting)
-      break;
-          
-
-  }
   }
 
   handleNext = () => {
@@ -244,29 +221,69 @@ class MainPage extends React.Component {
       activeStep: state.activeStep + 1,
     }));
   }
+  previousStep = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }))
+  }
 
   handleBack = () => {
-    if (this.state.activeStep === 0)
-      this.setState({init: true})
-    else if(this.state.activeStep === ERROR){
-      this.setState(state => ({
-        activeStep: state.reservedStep,
-        reservedStep: 0,
-      }))
+    const substep = this.state.substep;
+    
+    switch(this.state.activeStep){
+      case(0):
+      if(substep === 1)
+        this.setState({substep: 0})
+      else if(substep === 0)
+        this.setState({init: true})
+      break;
+      case(1):
+        if(substep === 0){
+          this.setState({substep: 1})
+          this.previousStep()
+        }else{
+          this.setState({substep: substep - 1})
+        }
+      break;
+      case(2):
+        this.previousStep()
+      break;
+      case(3):
+        this.previousStep()
+      break;
+      case(ERROR):
+        this.setState(state => ({
+          activeStep: state.reservedStep,
+          reservedStep: 0,
+        }))
+      break;
+      default: 
+      this.previousStep()
     }
-    else {
-      this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
-  }
   };
 
-  handleReset = () => {
+  handleCancel = () => {
+    // console.log('>>>>>>>>>>:', this.state)
     this.setState({
       activeStep: 0,
+      substep: 0,
+      init: true
     });
+    this.props.history.push('/')
   };
 
+  componentDidMount(){
+    // console.log('<<<<<<<<<: ', this.props.history.location)
+    const {history} = this.props
+    if(history.location.state)
+      if(history.location.state.edit){
+      const values = {
+        databaseCode: history.location.state.data.patientID,
+        agePhase: history.location.state.data.agePhase,
+      }
+      this.getCheckup(values)
+    }
+  }
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
@@ -302,7 +319,7 @@ class MainPage extends React.Component {
             <React.Fragment>
               {activeStep === steps.length ? ( //putting what shows after all steps done
               <React.Fragment>
-                steps Finished
+                {this.props.history.push('/')}
               </React.Fragment>
               ) : ( //shows step content 
               <React.Fragment>
@@ -330,6 +347,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
+    resetState: ()=>dispatch(resetState()) ,
     submitData: (data, path, onSuccessful, onError) =>
      dispatch(submitData(data, path, onSuccessful, onError)),
 

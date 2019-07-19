@@ -75,3 +75,30 @@ export const updateData = (patientID, data, path, onSuccessful, onError) => {
     .catch(err => {onError(err); return console.log("ERROR", err)})
   }
 }
+
+export const getData = ( path, onSuccessful, onError) => {
+  // console.log("BASEURL", baseURL);
+  // console.log("PATIENT_ID", patientID);
+
+  return dispatch => {
+    fetch(`${baseURL}${path}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => res.json())
+    .then(jsonRes => {
+      // console.log("JSON RESPONSE$$$$##$$%%%%% ", jsonRes)
+        onSuccessful(jsonRes);
+    })
+    .catch(err => {onError(err); return console.log("ERROR", err)})
+  }
+}
+
+export const resetState = (data) => {
+  return {
+    type: 'reset',
+    data, 
+  };
+}

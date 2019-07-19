@@ -7,7 +7,6 @@ import { renderTextField,  renderSelectField } from 'components/formComponents/f
 import {changeValuePharmacy, changeDataPharmacy} from 'store/actions'
 import {updateData, submitData, getSingleData} from 'store/main/actions'
 
-import {suggestions} from 'components/formComponents/autoComplete'
 
 import './styles.css'
 import './styling.css'
@@ -22,6 +21,7 @@ import validation from 'forms/validation'
 import meds from 'forms/helpers/meds'
 import { withStyles } from '@material-ui/styles';
 import './styling.css'
+import CustomSelect from 'components/select/select';
 
 
 const styles = theme => ({
@@ -37,7 +37,12 @@ const styles = theme => ({
   },
 });
 
-const renderMedicine = ({ fields, meta: { error } }) => (
+const pharmacyInitalValues = {
+  referal1: 0,
+  diagnosis: '',
+  meds: [],
+}
+const renderMedicine = ({ fields, meta: { error } }, selectProps) => (
   <ul 
   className={'margin fieldtv'}
   >
@@ -56,8 +61,8 @@ const renderMedicine = ({ fields, meta: { error } }) => (
       <div className={'block fullwidth'}>
       <Field
         className={' fieldtv '}
-        name={`treatment${index}`}
-        component={Select}
+        name={`treatment${index+1}`}
+        component={CustomSelect}
         options={meds}
         fullWidth
         label={'Enter medicine name'}
@@ -96,6 +101,7 @@ class Pharmacy extends Component {
   onError = (err) =>{this.props.handleError(err)}
   onSuccessful = () => {this.props.handleNext()}
   onEdit = (data) => {
+    console.log('>>>>>>>>:', data)
     if(data){
       this.props.changeData(data)
       this.setState({editFlage: true})
@@ -154,6 +160,7 @@ class Pharmacy extends Component {
             <Grid className="field-item" item xs={12} >
               <Field name={"referal"} className={'margin select-field'} 
               component={renderSelectField} label={'Referal/Purpose'}>
+                <option value={0}>Enter if there is referal</option> 
                 <option value={'yes'}>Yes</option> 
                 <option value={'demerdash'}>Refer to el Demerdash</option>
                 <option value={'benisuef'}>Refer to beni suef hospital</option>
@@ -180,7 +187,6 @@ class Pharmacy extends Component {
             <div className={`bottom-btns-tab`}>
               {(
               <Button 
-              disabled
               onClick={this.props.handleBack} 
               >
                 Back
@@ -211,12 +217,13 @@ class Pharmacy extends Component {
 Pharmacy = reduxForm({
   // a unique name for the form
   form: 'pharmacy',
-  enableReinitialize: true
+  enableReinitialize: true,
+  keepDirtyOnReinitialize:true,
 })(Pharmacy)
 
 const mapStateToProps = state => {
     return {
-      initialValues: {},
+      initialValues: Object.keys(state.pharmacy).length >= 3?state.pharmacy:pharmacyInitalValues,
     }
   }
   
