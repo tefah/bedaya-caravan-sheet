@@ -37,7 +37,7 @@ class Checkup extends React.Component{
   }
 
   componentDidMount(){
-    // console.log("@@@@@@@@@@@@@@: ", this.props.checkup)
+    // console.log("@@@@@@@@@@@@@@: ", this.props.handelCancel)
   if(this.props.databaseCode){
     const agePhase = this.props.agePhase
     const databaseCode = this.props.databaseCode

@@ -18,7 +18,7 @@ class Index extends React.Component {
 
     return (
       <div className={classes.root}>
-        <MainPage />
+        <MainPage history={this.props.history} />
       </div>
     );
   }
