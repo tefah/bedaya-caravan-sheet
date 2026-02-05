@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.2.1",
     "cors": "^2.8.5",
     "csv": "^5.1.1",
-    "csvtojson": "^2.0.10",
+    "csvtojson": "^2.0.13",
     "formik": "^1.5.7",
     "fs": "0.0.1-security",
     "local-storage": "^2.0.0",
